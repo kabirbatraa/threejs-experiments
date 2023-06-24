@@ -20,7 +20,7 @@ const sizes = {
 
 // Camera
 const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height)
-camera.position.z = 3
+camera.position.z = 10
 scene.add(camera)
 
 // Renderer
@@ -30,6 +30,8 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height)
 renderer.render(scene, camera)
 
+
+/*
 let time = Date.now();
 
 // Animations!
@@ -40,6 +42,25 @@ const tick = () => {
     time = currentTime;
     
     mesh.rotation.y += 0.01 * deltaTime / 10;
+    renderer.render(scene, camera)
+
+    // call itself the next frame
+    window.requestAnimationFrame(tick)
+}
+tick();
+*/
+
+
+const clock = new THREE.Clock();
+
+// Animations!
+const tick = () => {
+    // use delta time:
+    const ellapsedTime = clock.getElapsedTime()
+    
+    mesh.rotation.y = 2*Math.PI / 4 * ellapsedTime;
+    mesh.position.x = 4*Math.sin(ellapsedTime);
+    mesh.position.y = 4*Math.cos(ellapsedTime);
     renderer.render(scene, camera)
 
     // call itself the next frame
