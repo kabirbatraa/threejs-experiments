@@ -11,8 +11,11 @@ const scene = new THREE.Scene()
 // Object
 const geometry = new THREE.BoxGeometry(1, 1, 1)
 const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+// const material = new THREE.MeshPhongMaterial({ color: 0xff0000 })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
+
+// console.log(THREE.Material)
 
 // Sizes
 const sizes = {
@@ -53,7 +56,6 @@ tick();
 */
 
 
-/*
 const clock = new THREE.Clock();
 
 // Animations!
@@ -70,10 +72,10 @@ const tick = () => {
     window.requestAnimationFrame(tick)
 }
 tick();
-*/
 
+/*
 // gsap has its own tick, but you still need to render yourself
-gsap.to(mesh.position, { duration: 3, delay: 1, x: 2} )
+// gsap.to(mesh.position, { duration: 3, delay: 1, x: 2} )
 // object we are animating, properties
 
 // const clock = new THREE.Clock();
@@ -84,3 +86,4 @@ const tick = () => {
     window.requestAnimationFrame(tick)
 }
 tick();
+ */
