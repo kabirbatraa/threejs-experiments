@@ -40,13 +40,34 @@ window.addEventListener('resize', () => {
 })
 // listen for double click for fullscreen
 window.addEventListener('dblclick', () => {
-    if (!document.fullscreenElement) {
-        // go into fullscreen
-        canvas.requestFullscreen()
+
+    // this works on most browsers but not safari
+    // if (!document.fullscreenElement) {
+    //     // go into fullscreen
+    //     canvas.requestFullscreen()
+    // }
+    // else {
+    //     // leave fullscreen
+    //     document.exitFullscreen()
+    // }
+
+    const fullscreenElement = document.fullscreenElement || document.webkitFullscreenElement;
+    if (!fullscreenElement) {
+        if (canvas.requestFullscreen) {
+            canvas.requestFullscreen()
+        }
+        else if (canvas.webkitRequestFullscreen) {
+            canvas.webkitRequestFullscreen();
+        }
+        
     }
     else {
-        // leave fullscreen
-        document.exitFullscreen()
+        if (document.exitFullscreen) {
+            document.exitFullscreen()
+        }
+        else if (document.webkitExitFullscreen) {
+            document.webkitExitFullscreen()
+        }
     }
 })
 
