@@ -1,7 +1,13 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
+import * as dat from 'lil-gui'
 
 THREE.ColorManagement.enabled = false
+
+/**
+ * Debug using lilgui (dat)
+ */
+const gui = new dat.GUI()
 
 /**
  * Textures
@@ -73,7 +79,7 @@ material.shininess = 100
 material.specular = new THREE.Color(0x1188ff) // can set specular color
 */
 
-
+/*
 // uses cell shading for comic feeling
 const material = new THREE.MeshToonMaterial()
 // control cell shading steps/layers using gradient
@@ -82,19 +88,44 @@ material.gradientMap = gradientTexture
 // mag filter is trying to blur (stretch out the texture)
 gradientTexture.magFilter = THREE.NearestFilter
 gradientTexture.generateMipmaps = false
+*/
+
+// smoother than phong (more realistic algo)
+const material = new THREE.MeshStandardMaterial()
+// material.metalness = 0.5
+// material.roughness = 0.5
+// gui.add(material, 'metalness').min(0).max(1)
+// gui.add(material, 'roughness').min(0).max(1)
+
+material.map = doorColor
+material.aoMap = doorAmbientOcclusion
+// material.aoMapIntensity
+gui.add(material, 'aoMapIntensity').min(0).max(10)
+
+material.displacementMap = doorHeight
+// material.wireframe = true
+material.displacementScale = 0.1
+gui.add(material, 'displacementScale').min(0).max(0.5)
+
+material.metalnessMap = doorMetalness
+material.roughnessMap = doorRoughness
+
+material.normalMap = doorNormal
+material.alphaMap = doorAlpha
+material.transparent = true
 
 
 
 material.side = THREE.DoubleSide
 
 const sphere = new THREE.Mesh(
-    new THREE.SphereGeometry(0.5, 16, 16), 
+    new THREE.SphereGeometry(0.5, 64, 64), 
     material
 )
 sphere.position.x = -1.5
 
 const plane = new THREE.Mesh(
-    new THREE.PlaneGeometry(1, 1, 2, 2),
+    new THREE.PlaneGeometry(1, 1, 100, 100),
     material
 )
 
@@ -180,11 +211,11 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime() // in seconds
 
     // Update Objects
-    plane.rotation.y = 0.2 * elapsedTime
-    torus.rotation.y = 0.2 * elapsedTime
+    plane.rotation.y = 0.1 * elapsedTime
+    torus.rotation.y = 0.1 * elapsedTime
 
-    plane.rotation.x = 0.3 * elapsedTime
-    torus.rotation.x = 0.3 * elapsedTime
+    plane.rotation.x = 0.15 * elapsedTime
+    torus.rotation.x = 0.15 * elapsedTime
 
     // Update controls
     controls.update()
