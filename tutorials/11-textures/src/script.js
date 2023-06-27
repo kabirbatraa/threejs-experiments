@@ -64,11 +64,15 @@ const roughnessTexture = textureLoader.load('/textures/door/roughness.jpg')
 // colorTexture.center.y = 0.5
 
 // mip mapping
-// minification filter
+// minification filter (keep sharpness even when geometry is smaller than texture)
 colorTexture.minFilter = THREE.NearestFilter
 
 // magnification filter (for minecraft pixel-y look)
 colorTexture.magFilter = THREE.NearestFilter // default is linear, which blurs
+
+colorTexture.generateMipmaps = false;
+// should be false if we are using nearestfilter for min filter
+//   (bc we want to keep sharpness anyway)
 
 /**
  * Base
