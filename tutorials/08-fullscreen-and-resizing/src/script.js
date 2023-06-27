@@ -38,6 +38,17 @@ window.addEventListener('resize', () => {
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 })
+// listen for double click for fullscreen
+window.addEventListener('dblclick', () => {
+    if (!document.fullscreenElement) {
+        // go into fullscreen
+        canvas.requestFullscreen()
+    }
+    else {
+        // leave fullscreen
+        document.exitFullscreen()
+    }
+})
 
 /**
  * Camera
