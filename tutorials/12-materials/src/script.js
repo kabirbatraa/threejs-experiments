@@ -24,6 +24,16 @@ const doorRoughness = textureLoader.load('/textures/door/roughness.jpg')
 const matcapTexture = textureLoader.load('/textures/matcaps/4.png')
 const gradientTexture = textureLoader.load('/textures/gradients/3.jpg')
 
+// load environment map
+const cubeTextureLoader = new THREE.CubeTextureLoader();
+const environmentMapTexture = cubeTextureLoader.load([
+    '/textures/environmentMaps/city/px.png',
+    '/textures/environmentMaps/city/nx.png',
+    '/textures/environmentMaps/city/py.png',
+    '/textures/environmentMaps/city/ny.png',
+    '/textures/environmentMaps/city/pz.png',
+    '/textures/environmentMaps/city/nz.png'
+])
 
 /**
  * Base
@@ -90,6 +100,7 @@ gradientTexture.magFilter = THREE.NearestFilter
 gradientTexture.generateMipmaps = false
 */
 
+/*
 // smoother than phong (more realistic algo)
 const material = new THREE.MeshStandardMaterial()
 // material.metalness = 0.5
@@ -113,8 +124,13 @@ material.roughnessMap = doorRoughness
 material.normalMap = doorNormal
 material.alphaMap = doorAlpha
 material.transparent = true
-
-
+*/
+const material = new THREE.MeshStandardMaterial()
+material.metalness = 0.7
+material.roughness = 0.01
+material.envMap = environmentMapTexture
+gui.add(material, 'metalness').min(0).max(1)
+gui.add(material, 'roughness').min(0).max(1)
 
 material.side = THREE.DoubleSide
 
