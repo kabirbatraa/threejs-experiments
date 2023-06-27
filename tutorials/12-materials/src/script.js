@@ -15,7 +15,7 @@ const doorNormal = textureLoader.load('/textures/door/normal.jpg')
 const doorMetalness = textureLoader.load('/textures/door/metalness.jpg')
 const doorRoughness = textureLoader.load('/textures/door/roughness.jpg')
 
-const matcapTexture = textureLoader.load('/textures/matcaps/1.png')
+const matcapTexture = textureLoader.load('/textures/matcaps/4.png')
 const gradientTexture = textureLoader.load('/textures/gradients/3.jpg')
 
 
@@ -31,6 +31,8 @@ const scene = new THREE.Scene()
 /** 
  * Objects
  */
+/*
+// used for light-less renders?
 const material = new THREE.MeshBasicMaterial({
     // color: 0x00ff00
     // map: doorColor
@@ -42,6 +44,23 @@ material.map = doorColor;
 material.transparent = true
 material.alphaMap = doorAlpha
 material.side = THREE.DoubleSide
+*/
+
+/*
+// used for debugging normals
+const material = new THREE.MeshNormalMaterial()
+material.flatShading = true;
+*/
+
+/*
+// used for simulating light using a sphere image
+const material = new THREE.MeshMatcapMaterial()
+material.matcap = matcapTexture
+*/
+
+
+const material = new THREE.MeshDepthMaterial()
+
 
 const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.5, 16, 16), 
