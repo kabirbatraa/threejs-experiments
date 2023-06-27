@@ -58,9 +58,34 @@ const material = new THREE.MeshMatcapMaterial()
 material.matcap = matcapTexture
 */
 
-
+/*
+// used for simulating fog? (futher away = darker)
 const material = new THREE.MeshDepthMaterial()
+*/
 
+// basic light algo (has weird pattern artifact)
+// const material = new THREE.MeshLambertMaterial()
+
+/*
+// better light algo (with specular, less performant)
+const material = new THREE.MeshPhongMaterial()
+material.shininess = 100
+material.specular = new THREE.Color(0x1188ff) // can set specular color
+*/
+
+
+// uses cell shading for comic feeling
+const material = new THREE.MeshToonMaterial()
+// control cell shading steps/layers using gradient
+material.gradientMap = gradientTexture
+// we lost the cartoon effect bc the texture is small
+// mag filter is trying to blur (stretch out the texture)
+gradientTexture.magFilter = THREE.NearestFilter
+gradientTexture.generateMipmaps = false
+
+
+
+material.side = THREE.DoubleSide
 
 const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.5, 16, 16), 
@@ -80,6 +105,23 @@ const torus = new THREE.Mesh(
 torus.position.x = 1.5
 
 scene.add(sphere, plane, torus)
+
+
+
+/**
+ * Lights
+ */
+
+const ambientLight = new THREE.AmbientLight(0xffffff, 0.5)
+scene.add(ambientLight)
+// const pointLight = new THREE.PointLight(0x4400ff, 1.2)
+const pointLight = new THREE.PointLight(0xffffff, 0.5)
+pointLight.position.x = 2;
+pointLight.position.y = 3
+pointLight.position.z = 4;
+scene.add(pointLight)
+
+
 
 /**
  * Sizes
