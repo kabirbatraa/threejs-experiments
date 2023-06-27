@@ -49,6 +49,17 @@ const ambientOcclusionTexture = textureLoader.load('/textures/door/ambientOcclus
 const metalnessTexture = textureLoader.load('/textures/door/metalness.jpg')
 const roughnessTexture = textureLoader.load('/textures/door/roughness.jpg')
 
+// repeating texture
+// colorTexture.repeat.x = 2;
+// colorTexture.wrapS = THREE.MirroredRepeatWrapping
+// colorTexture.repeat.y = 2;
+// colorTexture.wrapT = THREE.RepeatWrapping
+// colorTexture.offset.x = 0.5
+colorTexture.rotation = Math.PI/4
+colorTexture.center.x = 0.5
+colorTexture.center.y = 0.5
+
+
 /**
  * Base
  */
@@ -62,6 +73,7 @@ const scene = new THREE.Scene()
  * Object
  */
 const geometry = new THREE.BoxGeometry(1, 1, 1)
+// const geometry = new THREE.SphereBufferGeometry(1, 32, 32)
 // const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
 const material = new THREE.MeshBasicMaterial({ map: colorTexture })
 const mesh = new THREE.Mesh(geometry, material)
