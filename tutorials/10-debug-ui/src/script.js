@@ -1,6 +1,13 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import gsap from 'gsap'
+import * as dat from 'lil-gui'
+
+/**
+ * Debug panel using dat
+ */
+// console.log(dat)
+const gui = new dat.GUI()
 
 /**
  * Base
@@ -14,10 +21,35 @@ const scene = new THREE.Scene()
 /**
  * Object
  */
-const geometry = new THREE.BoxGeometry(1, 1, 1)
+const geometry = new THREE.BoxGeometry(1, 1, 1, 4, 4, 4)
 const material = new THREE.MeshBasicMaterial({ color: 0xff0000 })
 const mesh = new THREE.Mesh(geometry, material)
 scene.add(mesh)
+
+// debug mesh position
+gui.add(mesh.position, 'x', -3, 3, 0.01);
+gui.add(mesh.position, 'y', -3, 3, 0.01).name('elevation');
+// gui.add(mesh.position, 'z', -3, 3, 0.01);
+// object, object property name, minimum, maximum, step
+// can also use method to set min, max, step
+gui.add(mesh.position, 'z')
+    .min(-3)
+    .max(3)
+    .step(0.01);
+// called chaining
+
+// debug mesh material properties
+gui.add(mesh, 'visible')
+gui.add(mesh.material, 'wireframe')
+gui.addColor(mesh.material, 'color')
+
+// add function to gui 
+let functionObject = {
+    spin: () => {
+        gsap.to(mesh.rotation, { y: mesh.rotation.y+2*Math.PI, duration: 2, })
+    }
+}
+gui.add(functionObject, 'spin')
 
 /**
  * Sizes
