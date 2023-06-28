@@ -26,7 +26,9 @@ const scene = new THREE.Scene()
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
-const matcapTexture = textureLoader.load('textures/matcaps/8.png')
+const matcapTexture = textureLoader.load('textures/matcaps/3.png')
+const matcapRedOrangeWhite = textureLoader.load('textures/matcaps/matcapRedOrangeWhite.png')
+const matcapGold = textureLoader.load('textures/matcaps/matcapGold.png')
 
 /**
  * Fonts
@@ -86,6 +88,26 @@ fontLoader.load(
 // )
 
 // scene.add(cube)
+
+// DONUTS
+const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45)
+const donutMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapGold })
+let range = 25;
+for (let i = 0; i < 1000; i++) {
+    const donutMesh = new THREE.Mesh(donutGeometry, donutMaterial)
+    donutMesh.position.x = (Math.random()-0.5) * 25
+    donutMesh.position.y = (Math.random()-0.5) * 25
+    donutMesh.position.z = (Math.random()-0.5) * 25
+
+    donutMesh.rotation.x = (Math.random()-0.5) * Math.PI
+    donutMesh.rotation.y = (Math.random()-0.5) * Math.PI
+    donutMesh.rotation.z = (Math.random()-0.5) * Math.PI
+
+    let scale = Math.random()
+    donutMesh.scale.set(scale, scale, scale)
+    
+    scene.add(donutMesh)
+}
 
 /**
  * Sizes
