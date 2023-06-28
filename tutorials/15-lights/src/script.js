@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
+import { RectAreaLightHelper } from 'three/examples/jsm/helpers/RectAreaLightHelper.js'
 
 THREE.ColorManagement.enabled = false
 
@@ -31,18 +32,18 @@ const ambientLight = new THREE.AmbientLight("#bf75ff", 0.3)
 // ambientLight.color = new THREE.Color("#bf75ff")
 gui.add(ambientLight, 'intensity').min(0).max(1).step(0.01).name("ambient intensity")
 gui.addColor(ambientLight, 'color').name("ambient color")
-scene.add(ambientLight)
+// scene.add(ambientLight)
 
-const directionalLight = new THREE.DirectionalLight("red", 0.3)
+const directionalLight = new THREE.DirectionalLight("red", 0.5)
 gui.add(directionalLight, 'intensity').min(0).max(1 ).step(0.01).name('directional intensity')
 gui.addColor(directionalLight, 'color').name('directional color')
-directionalLight.position.set(1, 0.25, 0)
+directionalLight.position.set(1, 0.5, 0)
 scene.add(directionalLight)
 
-const hemisphereLight = new THREE.HemisphereLight("#00ff55", "#0000ff", 0.2)
+const hemisphereLight = new THREE.HemisphereLight("#00ff55", "#0000ff", 0.3)
 scene.add(hemisphereLight)
 
-const pointLight = new THREE.PointLight('#ff9000', 0.9)
+const pointLight = new THREE.PointLight('#ff88e7', 0.9)
 pointLight.position.set(1, -0.5, 1)
 gui.add(pointLight, 'distance').min(0).max(10)
 gui.add(pointLight, 'decay').min(0).max(10)
@@ -50,7 +51,7 @@ scene.add(pointLight)
 
 // only works iwth standard or physical material, not phong etc
 // (physical material inherits from standard material)
-const rectAreaLight = new THREE.RectAreaLight("#4e00ff", 0.5, 3, 1)
+const rectAreaLight = new THREE.RectAreaLight("#4e00ff", 1, 3, 1)
 rectAreaLight.position.z = 1
 scene.add(rectAreaLight)
 
@@ -58,14 +59,29 @@ const rectAreaLight2 = new THREE.RectAreaLight("#4e00ff", 0.5, 2, 2)
 rectAreaLight2.position.z = -1
 rectAreaLight2.position.y = 1
 // rectAreaLight2.lookAt(new THREE.Vector3(0,0,0))
-scene.add(rectAreaLight2)
+// scene.add(rectAreaLight2)
 
 // color, intensity, distance (fade with distance), angle width, penumbra (soft edge), decay
-const spotLight = new THREE.SpotLight("#e770ff", 0.3, 10, Math.PI*0.05, 0.25, 1)
-spotLight.position.set(0, 2, 3)
+const spotLight = new THREE.SpotLight("#e770ff", 0.3, 10, Math.PI*0.1, 0.25, 1)
+spotLight.position.set(0, 3, 2)
 scene.add(spotLight, spotLight.target)
 
 
+// Helpers
+const hemisphereLightHelper = new THREE.HemisphereLightHelper(hemisphereLight, 0.2)
+scene.add(hemisphereLightHelper)
+
+const directionalLightHelper = new THREE.DirectionalLightHelper(directionalLight, 0.2)
+scene.add(directionalLightHelper)
+
+const pointLightHelper = new THREE.PointLightHelper(pointLight, 0.2);
+scene.add(pointLightHelper)
+
+const spotLightHelper = new THREE.SpotLightHelper(spotLight);
+scene.add(spotLightHelper)
+
+const rectAreaLightHelper = new RectAreaLightHelper(rectAreaLight)
+scene.add(rectAreaLightHelper)
 
 /**
  * Objects
@@ -80,7 +96,7 @@ const sphere = new THREE.Mesh(
     material
 )
 sphere.position.x = - 1.5
-rectAreaLight2.lookAt(sphere.position)
+// rectAreaLight2.lookAt(sphere.position)
 
 const cube = new THREE.Mesh(
     new THREE.BoxGeometry(0.75, 0.75, 0.75),
@@ -93,7 +109,7 @@ const torus = new THREE.Mesh(
 )
 torus.position.x = 1.5
 // spotLight.lookAt(torus.position) // spotlights dont work like this
-spotLight.target.position.set(...torus.position);
+// spotLight.target.position.set(...torus.position);
 
 const plane = new THREE.Mesh(
     new THREE.PlaneGeometry(5, 5),
