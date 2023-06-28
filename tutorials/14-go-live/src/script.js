@@ -10,7 +10,7 @@ THREE.ColorManagement.enabled = false
  * Base
  */
 // Debug
-const gui = new dat.GUI()
+// const gui = new dat.GUI()
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -54,27 +54,15 @@ fontLoader.load(
                 bevelSegments: 5
             }
         )
-        textGeometry.computeBoundingBox()
-        // textGeometry.translate(
-        //     -textGeometry.boundingBox.max.x*0.5,
-        //     -textGeometry.boundingBox.max.y*0.5,
-        //     -textGeometry.boundingBox.max.z*0.5
-        // )
         textGeometry.center()
         
 
         // const textMaterial = new THREE.MeshBasicMaterial()
-        // const textMaterial = new THREE.MeshNormalMaterial()
-        const textMaterial = new THREE.MeshMatcapMaterial()
+        const textMaterial = new THREE.MeshNormalMaterial()
+        // const textMaterial = new THREE.MeshMatcapMaterial()
         textMaterial.matcap = matcapBlackAndWhite;
         // textMaterial.wireframe = true
         const textMesh = new THREE.Mesh(textGeometry, textMaterial);
-        // textMesh.position.set(new THREE.Vector3(
-        //     (textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x) / 2,
-        //     -textGeometry.boundingBox.max.y*0.5,
-        //     -textGeometry.boundingBox.max.z*0.5
-        // ))
-        // textMesh.position.x = -(textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x) / 2
         
         scene.add(textMesh)
     }
@@ -92,19 +80,20 @@ fontLoader.load(
 
 // DONUTS
 const donutGeometry = new THREE.TorusGeometry(0.3, 0.2, 20, 45)
-const donutMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapGold })
-let range = 25;
-for (let i = 0; i < 1000; i++) {
+// const donutMaterial = new THREE.MeshMatcapMaterial({ matcap: matcapGold })
+const donutMaterial = new THREE.MeshNormalMaterial()
+let range = 100;
+for (let i = 0; i < 10000; i++) {
     const donutMesh = new THREE.Mesh(donutGeometry, donutMaterial)
-    donutMesh.position.x = (Math.random()-0.5) * 25
-    donutMesh.position.y = (Math.random()-0.5) * 25
-    donutMesh.position.z = (Math.random()-0.5) * 25
+    donutMesh.position.x = (Math.random()-0.5) * range
+    donutMesh.position.y = (Math.random()-0.5) * range
+    donutMesh.position.z = (Math.random()-0.5) * range
 
     donutMesh.rotation.x = (Math.random()-0.5) * Math.PI
     donutMesh.rotation.y = (Math.random()-0.5) * Math.PI
     donutMesh.rotation.z = (Math.random()-0.5) * Math.PI
 
-    let scale = Math.random()*1.5
+    let scale = Math.random()*2
     donutMesh.scale.set(scale, scale, scale)
     
     scene.add(donutMesh)
