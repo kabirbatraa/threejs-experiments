@@ -1,6 +1,8 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
+import { FontLoader } from 'three/examples/jsm/loaders/FontLoader.js'
+import { TextGeometry } from 'three/examples/jsm/geometries/TextGeometry.js'
 
 THREE.ColorManagement.enabled = false
 
@@ -16,20 +18,74 @@ const canvas = document.querySelector('canvas.webgl')
 // Scene
 const scene = new THREE.Scene()
 
+// axes helper
+// const axesHelper = new THREE.AxesHelper()
+// scene.add(axesHelper)
+
 /**
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
+const matcapTexture = textureLoader.load('textures/matcaps/8.png')
+
+/**
+ * Fonts
+ */
+const fontLoader = new FontLoader()
+fontLoader.load(
+    '/fonts/helvetiker_regular.typeface.json',
+    (font) => {
+        console.log('font loaded')
+
+        const textGeometry = new TextGeometry(
+            'hello world :D',
+            {
+                font: font,
+                size: 0.5,
+                height: 0.2,
+                curveSegments: 12,
+                bevelEnabled: true,
+                bevelThickness: 0.03,
+                bevelSize: 0.02,
+                bevelOffset: 0,
+                bevelSegments: 5
+            }
+        )
+        textGeometry.computeBoundingBox()
+        // textGeometry.translate(
+        //     -textGeometry.boundingBox.max.x*0.5,
+        //     -textGeometry.boundingBox.max.y*0.5,
+        //     -textGeometry.boundingBox.max.z*0.5
+        // )
+        textGeometry.center()
+        
+
+        // const textMaterial = new THREE.MeshBasicMaterial()
+        // const textMaterial = new THREE.MeshNormalMaterial()
+        const textMaterial = new THREE.MeshMatcapMaterial()
+        textMaterial.matcap = matcapTexture;
+        // textMaterial.wireframe = true
+        const textMesh = new THREE.Mesh(textGeometry, textMaterial);
+        // textMesh.position.set(new THREE.Vector3(
+        //     (textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x) / 2,
+        //     -textGeometry.boundingBox.max.y*0.5,
+        //     -textGeometry.boundingBox.max.z*0.5
+        // ))
+        // textMesh.position.x = -(textGeometry.boundingBox.max.x - textGeometry.boundingBox.min.x) / 2
+        
+        scene.add(textMesh)
+    }
+)
 
 /**
  * Object
  */
-const cube = new THREE.Mesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshBasicMaterial()
-)
+// const cube = new THREE.Mesh(
+//     new THREE.BoxGeometry(1, 1, 1),
+//     new THREE.MeshBasicMaterial()
+// )
 
-scene.add(cube)
+// scene.add(cube)
 
 /**
  * Sizes
