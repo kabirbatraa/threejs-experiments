@@ -33,6 +33,29 @@ gui.add(directionalLight.position, 'y').min(- 5).max(5).step(0.001)
 gui.add(directionalLight.position, 'z').min(- 5).max(5).step(0.001)
 scene.add(directionalLight)
 
+directionalLight.castShadow = true;
+directionalLight.shadow.mapSize.width = 1024
+directionalLight.shadow.mapSize.height = 1024
+directionalLight.shadow.camera.near = 0
+directionalLight.shadow.camera.far = 6
+
+const mapSize = {
+    size: 1
+}
+
+directionalLight.shadow.camera.left = -mapSize.size
+directionalLight.shadow.camera.right = mapSize.size
+directionalLight.shadow.camera.bottom = -mapSize.size
+directionalLight.shadow.camera.top = mapSize.size
+// gui.add(mapSize, 'size').min(0.1).max(10) // didnt work :c
+// directionalLight.shadow.radius = 10 // does not work with soft shadow (set in renderer)
+
+const directionalLightCameraHelper = new THREE.CameraHelper(directionalLight.shadow.camera)
+scene.add(directionalLightCameraHelper)
+directionalLightCameraHelper.visible = false
+
+
+
 /**
  * Materials
  */
@@ -48,6 +71,7 @@ const sphere = new THREE.Mesh(
     new THREE.SphereGeometry(0.5, 32, 32),
     material
 )
+sphere.castShadow = true;
 
 const plane = new THREE.Mesh(
     new THREE.PlaneGeometry(5, 5),
@@ -55,6 +79,7 @@ const plane = new THREE.Mesh(
 )
 plane.rotation.x = - Math.PI * 0.5
 plane.position.y = - 0.5
+plane.receiveShadow = true;
 
 scene.add(sphere, plane)
 
@@ -104,6 +129,9 @@ const renderer = new THREE.WebGLRenderer({
 renderer.outputColorSpace = THREE.LinearSRGBColorSpace
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
+
+renderer.shadowMap.enabled = true
+renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
 /**
  * Animate
