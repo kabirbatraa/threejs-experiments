@@ -169,11 +169,12 @@ const graveGeometry = new THREE.BoxGeometry(0.6, 0.8, 0.2)
 const graveMaterial = new THREE.MeshStandardMaterial({color: "#686868"})
 
 let currentAngle = Math.random() * Math.PI * 2
-const minRadius = wallWidth/2 * Math.sqrt(2) + 2
+const minRadius = wallWidth/2 * Math.sqrt(2) + 1
+const addToRadius = 6
 for (let i = 0; i < 75; i++) {
     // console.log(currentAngle)
-    const posX = Math.cos(currentAngle) * (minRadius + Math.random()*4)
-    const posZ = Math.sin(currentAngle) * (minRadius + Math.random()*4)
+    const posX = Math.cos(currentAngle) * (minRadius + Math.random()*addToRadius)
+    const posZ = Math.sin(currentAngle) * (minRadius + Math.random()*addToRadius)
     const grave = new THREE.Mesh(graveGeometry, graveMaterial)
     grave.position.set(posX, 0.3, posZ)
     grave.rotation.y = (Math.random()*2-1) * Math.PI / 4
@@ -199,6 +200,7 @@ gui.add(moonLight.position, 'x').min(- 5).max(5).step(0.001)
 gui.add(moonLight.position, 'y').min(- 5).max(5).step(0.001)
 gui.add(moonLight.position, 'z').min(- 5).max(5).step(0.001)
 scene.add(moonLight)
+
 
 
 // door light
@@ -269,6 +271,59 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 // set background color to fog color
 renderer.setClearColor(fogColor)
+
+/**
+ * Shadows
+ */
+// enable shadows in renderer
+renderer.shadowMap.enabled = true
+renderer.shadowMap.type = THREE.PCFSoftShadowMap
+
+// give lights shadowmaps
+moonLight.castShadow = true;
+doorLight.castShadow = true;
+ghost1.castShadow = true;
+ghost2.castShadow = true;
+ghost3.castShadow = true;
+
+// make objects cast shadows
+walls.castShadow = true;
+roof.castShadow = true
+bush.castShadow = true
+bush2.castShadow = true
+bush3.castShadow = true
+bush4.castShadow = true
+
+graves.children.forEach(grave => {
+    grave.castShadow = true
+});
+
+// floor.castShadow = true // for the case that the ghost is under the floor
+
+// make objects receive shadows
+floor.receiveShadow = true
+walls.receiveShadow = true
+graves.children.forEach(grave => {
+    grave.receiveShadow = true
+});
+
+// optimize shadows
+doorLight.shadow.mapSize.width = 256
+doorLight.shadow.mapSize.height = 256
+doorLight.shadow.camera.far = 15
+
+ghost1.shadow.mapSize.width = 256
+ghost1.shadow.mapSize.height = 256
+ghost1.shadow.camera.far = 10
+
+ghost2.shadow.mapSize.width = 256
+ghost2.shadow.mapSize.height = 256
+ghost2.shadow.camera.far = 10
+
+ghost3.shadow.mapSize.width = 256
+ghost3.shadow.mapSize.height = 256
+ghost3.shadow.camera.far = 10
+
 
 /**
  * Animate
