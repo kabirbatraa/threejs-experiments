@@ -5,6 +5,12 @@ import * as dat from 'lil-gui'
 THREE.ColorManagement.enabled = false
 
 /**
+ * Textures
+ */
+const textureLoader = new THREE.TextureLoader()
+const bakedShadow = textureLoader.load('/textures/bakedShadow.jpg')
+
+/**
  * Base
  */
 // Debug
@@ -55,7 +61,7 @@ scene.add(directionalLightCameraHelper)
 directionalLightCameraHelper.visible = false
 
 // Spot light
-const spotLight = new THREE.SpotLight('#ffffff', 0.3, 10, Math.PI*0.3)
+const spotLight = new THREE.SpotLight('#ffffff', 0.3, 10, Math.PI*0.2)
 spotLight.castShadow = true;
 spotLight.shadow.mapSize.width = 1024
 spotLight.shadow.mapSize.height = 1024
@@ -104,7 +110,7 @@ sphere.castShadow = true;
 
 const plane = new THREE.Mesh(
     new THREE.PlaneGeometry(5, 5),
-    material
+    new THREE.MeshBasicMaterial({ map: bakedShadow })
 )
 plane.rotation.x = - Math.PI * 0.5
 plane.position.y = - 0.5
@@ -159,7 +165,7 @@ renderer.outputColorSpace = THREE.LinearSRGBColorSpace
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
-renderer.shadowMap.enabled = true
+renderer.shadowMap.enabled = false
 renderer.shadowMap.type = THREE.PCFSoftShadowMap
 
 /**
