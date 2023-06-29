@@ -9,6 +9,7 @@ THREE.ColorManagement.enabled = false
  */
 const textureLoader = new THREE.TextureLoader()
 const bakedShadow = textureLoader.load('/textures/bakedShadow.jpg')
+const simpleShadow = textureLoader.load('/textures/simpleShadow.jpg')
 
 /**
  * Base
@@ -84,7 +85,7 @@ pointLight.shadow.mapSize.width = 1024
 pointLight.shadow.camera.near = 0.1
 pointLight.shadow.camera.far = 4
 
-pointLight.position.set(-1, 1, 0)
+pointLight.position.set(-1, 3, 0)
 scene.add(pointLight)
 const pointLightCameraHelper = new THREE.CameraHelper(pointLight.shadow.camera)
 scene.add(pointLightCameraHelper)
@@ -107,16 +108,37 @@ const sphere = new THREE.Mesh(
     material
 )
 sphere.castShadow = true;
+// gui.add(sphere.position, "x").name("sphereX").min(-3).max(3)
+// gui.add(sphere.position, "y").name("sphereY").min(-3).max(3)
+// gui.add(sphere.position, "z").name("sphereZ").min(-3).max(3)
 
 const plane = new THREE.Mesh(
     new THREE.PlaneGeometry(5, 5),
-    new THREE.MeshBasicMaterial({ map: bakedShadow })
+    // new THREE.MeshBasicMaterial({ map: bakedShadow })
+    material
 )
 plane.rotation.x = - Math.PI * 0.5
 plane.position.y = - 0.5
 plane.receiveShadow = true;
 
 scene.add(sphere, plane)
+
+
+// dynamic baked shadow for sphere:
+const sphereShadow = new THREE.Mesh(
+    new THREE.PlaneGeometry(1.5, 1.5),
+    new THREE.MeshBasicMaterial({ 
+        color: "#000000",
+        transparent: true,
+        alphaMap: simpleShadow
+    })
+)
+
+sphereShadow.rotation.x = Math.PI * -0.5
+sphereShadow.position.y = plane.position.y + 0.001
+scene.add(sphereShadow)
+
+
 
 /**
  * Sizes
@@ -176,6 +198,18 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+
+    const speedUp = 1.5
+    const speedUpBounce = 3
+
+    // Animate the sphere
+    sphere.position.x = Math.sin(elapsedTime*speedUp)
+    sphere.position.z = Math.cos(elapsedTime*speedUp)
+    sphere.position.y = Math.abs(Math.sin(elapsedTime*speedUpBounce))
+
+    sphereShadow.position.x = sphere.position.x
+    sphereShadow.position.z = sphere.position.z
+    sphereShadow.material.opacity = (1 - sphere.position.y) * .8
 
     // Update controls
     controls.update()
