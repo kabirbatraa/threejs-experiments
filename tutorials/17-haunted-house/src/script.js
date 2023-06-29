@@ -169,8 +169,8 @@ const graveGeometry = new THREE.BoxGeometry(0.6, 0.8, 0.2)
 const graveMaterial = new THREE.MeshStandardMaterial({color: "#686868"})
 
 let currentAngle = Math.random() * Math.PI * 2
-const minRadius = wallWidth * Math.sqrt(2)
-for (let i = 0; i < 50; i++) {
+const minRadius = wallWidth/2 * Math.sqrt(2) + 2
+for (let i = 0; i < 75; i++) {
     // console.log(currentAngle)
     const posX = Math.cos(currentAngle) * (minRadius + Math.random()*4)
     const posZ = Math.sin(currentAngle) * (minRadius + Math.random()*4)
@@ -207,8 +207,18 @@ doorLight.position.set(0, 2.2, 2.7)
 houseGroup.add(doorLight)
 
 
+/**
+ * Ghosts! (floating lights)
+ */
+// let ghosts = []
+const ghost1 = new THREE.PointLight('#ff00ff', 1, 3.5)
+scene.add(ghost1)
+// ghosts.push(ghost1)
 
-
+const ghost2 = new THREE.PointLight('#00ffff', 1, 3.5)
+scene.add(ghost2)
+const ghost3 = new THREE.PointLight('#ffbb00', 3, 4)
+scene.add(ghost3)
 
 /**
  * Sizes
@@ -268,6 +278,26 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+
+    // Update ghosts
+    // ghosts.forEach(ghost => {
+    let ghostAngle = elapsedTime * 0.4
+    let radius = 4 + 0.3*Math.sin(elapsedTime*2)
+    ghost1.position.x = Math.cos(ghostAngle) * radius
+    ghost1.position.z = Math.sin(ghostAngle) * radius
+    ghost1.position.y = Math.sin(elapsedTime * 1.5)
+    // }); 
+    ghostAngle = elapsedTime * 0.3
+    radius = 5 + 0.2*Math.sin(elapsedTime*3)
+    ghost2.position.x = -Math.cos(ghostAngle) * radius
+    ghost2.position.z = Math.sin(ghostAngle) * radius
+    ghost2.position.y = -Math.sin(elapsedTime * 1.5)
+
+    ghostAngle = elapsedTime * 0.2 + Math.PI
+    radius = 7 + 0.1*Math.sin(elapsedTime*5)
+    ghost3.position.x = -Math.cos(ghostAngle) * radius
+    ghost3.position.z = Math.sin(ghostAngle) * radius
+    ghost3.position.y = Math.sin(elapsedTime)+0.5
 
     // Update controls
     controls.update()
