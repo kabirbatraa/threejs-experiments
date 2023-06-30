@@ -52,6 +52,9 @@ particlesMaterial.transparent = true;
 particlesMaterial.depthWrite = false;
 // THIS WORKS BEST
 
+// blending: adds overlapping colors to make super bright glow
+particlesMaterial.blending = THREE.AdditiveBlending
+
 // particles/points
 const particles = new THREE.Points(particlesGeometry, particlesMaterial)
 // scene.add(particles)
@@ -60,8 +63,8 @@ const particles = new THREE.Points(particlesGeometry, particlesMaterial)
 // challege: random points everywhere
 const randomParticlesGeometry = new THREE.BufferGeometry()
 
-const numParticles = 10000; 
-const range = 8; //10
+const numParticles = 20000;
+const range = 3; //10
 const vertices = new Float32Array(3*numParticles)
 for (let i = 0; i < numParticles; i++) {
     vertices[i*3] = range*(Math.random()*2-1) // x
@@ -73,7 +76,7 @@ randomParticlesGeometry.setAttribute('position', new THREE.BufferAttribute(verti
 const randomParticles = new THREE.Points(randomParticlesGeometry, particlesMaterial)
 scene.add(randomParticles)
 
-scene.add(new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial()))
+// scene.add(new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial()))
 
 /**
  * Sizes
