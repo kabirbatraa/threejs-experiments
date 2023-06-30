@@ -21,15 +21,36 @@ const scene = new THREE.Scene()
  */
 const textureLoader = new THREE.TextureLoader()
 
+const particleTexture = textureLoader.load('/textures/particles/10.png')
 
 /**
  * Particles
  */
 const particlesGeometry = new THREE.SphereGeometry(1, 32, 32)
 const particlesMaterial = new THREE.PointsMaterial({
-    size: 0.02,
-    sizeAttenuation: true // to create perspective (close -> larger)
+    size: 0.1,
+    sizeAttenuation: true, // to create perspective (close -> larger)
+    color: 'red'
 })
+particlesMaterial.color = new THREE.Color('#ff88cc')
+// particlesMaterial.map = particleTexture; // dont need this i think
+particlesMaterial.alphaMap = particleTexture;
+particlesMaterial.transparent = true;
+
+// reason why alpha doesnt work is because gpu draws particles in random order
+// and some 0 alpha values still overwrite?
+
+// one potential solution is low alpha test
+// particlesMaterial.alphaTest = 0.001
+// not perfect, will still have some particles cut off
+
+// another potential solution is disable depth test 
+// particlesMaterial.depthTest = false
+// not perfect, will draw far particles over other objects that are closer
+
+// another potential solution is disable depth write (do not write to the depth buffer)
+particlesMaterial.depthWrite = false;
+// THIS WORKS BEST
 
 // particles/points
 const particles = new THREE.Points(particlesGeometry, particlesMaterial)
@@ -39,8 +60,8 @@ const particles = new THREE.Points(particlesGeometry, particlesMaterial)
 // challege: random points everywhere
 const randomParticlesGeometry = new THREE.BufferGeometry()
 
-const numParticles = 1000000;
-const range = 500;
+const numParticles = 10000; 
+const range = 8; //10
 const vertices = new Float32Array(3*numParticles)
 for (let i = 0; i < numParticles; i++) {
     vertices[i*3] = range*(Math.random()*2-1) // x
@@ -51,6 +72,8 @@ randomParticlesGeometry.setAttribute('position', new THREE.BufferAttribute(verti
 
 const randomParticles = new THREE.Points(randomParticlesGeometry, particlesMaterial)
 scene.add(randomParticles)
+
+scene.add(new THREE.Mesh(new THREE.BoxGeometry(1, 1, 1), new THREE.MeshBasicMaterial()))
 
 /**
  * Sizes
