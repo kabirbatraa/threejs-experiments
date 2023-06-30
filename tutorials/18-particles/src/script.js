@@ -8,7 +8,7 @@ THREE.ColorManagement.enabled = false
  * Base
  */
 // Debug
-const gui = new dat.GUI()
+// const gui = new dat.GUI()
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -26,13 +26,14 @@ const particleTexture = textureLoader.load('/textures/particles/10.png')
 /**
  * Particles
  */
-const particlesGeometry = new THREE.SphereGeometry(1, 32, 32)
+// const particlesGeometry = new THREE.SphereGeometry(1, 32, 32)
 const particlesMaterial = new THREE.PointsMaterial({
     size: 0.1,
     sizeAttenuation: true, // to create perspective (close -> larger)
-    color: 'red'
+    // color: 'red'
 })
-particlesMaterial.color = new THREE.Color('#ff88cc')
+// particlesMaterial.color = new THREE.Color('#ff88cc')
+particlesMaterial.vertexColors = true
 // particlesMaterial.map = particleTexture; // dont need this i think
 particlesMaterial.alphaMap = particleTexture;
 particlesMaterial.transparent = true;
@@ -56,7 +57,7 @@ particlesMaterial.depthWrite = false;
 particlesMaterial.blending = THREE.AdditiveBlending
 
 // particles/points
-const particles = new THREE.Points(particlesGeometry, particlesMaterial)
+// const particles = new THREE.Points(particlesGeometry, particlesMaterial)
 // scene.add(particles)
 
 
@@ -64,6 +65,8 @@ const particles = new THREE.Points(particlesGeometry, particlesMaterial)
 const randomParticlesGeometry = new THREE.BufferGeometry()
 
 const numParticles = 20000;
+
+// set vertices attribute (for random positions)
 const range = 3; //10
 const vertices = new Float32Array(3*numParticles)
 for (let i = 0; i < numParticles; i++) {
@@ -72,6 +75,13 @@ for (let i = 0; i < numParticles; i++) {
     vertices[i*3+2] = range*(Math.random()*2-1) // z
 }
 randomParticlesGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
+
+// set color attribute (for random colors)
+const colors = new Float32Array(3*numParticles);
+for (let i = 0; i < numParticles*3; i++) {
+    colors[i] = Math.random() // rgb is from 0 to 1
+}
+randomParticlesGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
 
 const randomParticles = new THREE.Points(randomParticlesGeometry, particlesMaterial)
 scene.add(randomParticles)
