@@ -142,6 +142,26 @@ const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
 
+    /**
+     * animate particles:
+     */
+    // animate the whole Points object
+    // randomParticles.rotation.y = elapsedTime * 0.1
+    // animate each particle individually
+    for (let i = 0; i < numParticles; i++) {
+        const i3 = i*3
+        const xIndex = i3
+        const yIndex = i3+1
+        const zIndex = i3+2
+        const xValue = randomParticles.geometry.attributes.position.array[xIndex]
+        const zValue = randomParticles.geometry.attributes.position.array[zIndex]
+        randomParticles.geometry.attributes.position.array[yIndex] = Math.sin(elapsedTime*2 + xValue + zValue)
+    }
+    // need to tell three js that the attribute needs to be updated
+    randomParticles.geometry.attributes.position.needsUpdate = true
+
+
+
     // Update controls
     controls.update()
 
