@@ -39,13 +39,13 @@ const particles = new THREE.Points(particlesGeometry, particlesMaterial)
 // challege: random points everywhere
 const randomParticlesGeometry = new THREE.BufferGeometry()
 
-const numParticles = 1000;
-const range = 3;
+const numParticles = 1000000;
+const range = 500;
 const vertices = new Float32Array(3*numParticles)
 for (let i = 0; i < numParticles; i++) {
-    vertices[i*3] = range*(Math.random()*2-1)
-    vertices[i*3+1] = range*(Math.random()*2-1)
-    vertices[i*3+2] = range*(Math.random()*2-1)
+    vertices[i*3] = range*(Math.random()*2-1) // x
+    vertices[i*3+1] = range*(Math.random()*2-1) // y
+    vertices[i*3+2] = range*(Math.random()*2-1) // z
 }
 randomParticlesGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
 
