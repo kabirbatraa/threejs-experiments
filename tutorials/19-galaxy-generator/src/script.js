@@ -22,30 +22,56 @@ const scene = new THREE.Scene()
  * Galaxy
  */
 const parameters = {
-    count: 1000,
-    size: 0.02,
+    count: 100000,
+    size: 0.01,
 }
+
+let particleGeometry = null;
+let particleMaterial = null;
+let particles = null;
+
+
 function generateGalaxy() {
+
+    // if the old galaxy already exists, destroy before recreating
+    if (particles !== null) {
+        particleGeometry.dispose() // free memory
+        particleMaterial.dispose() // free memory
+        scene.remove(particles); // remove points from scene
+    }
     
-    const particleGeometry = new THREE.BufferGeometry()
+    particleGeometry = new THREE.BufferGeometry()
     const vertices = new Float32Array(parameters.count*3)
     for (let i = 0; i < parameters.count*3; i++) {
         vertices[i] = Math.random()*2-1
     }
     particleGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
     // Make sure to use PointsMaterial instead of any other material
-    const particleMaterial = new THREE.PointsMaterial({
+    particleMaterial = new THREE.PointsMaterial({
         size: parameters.size,
         sizeAttenuation: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
         color: 'blue'
     })
-    const particles = new THREE.Points(particleGeometry, particleMaterial)
+    particles = new THREE.Points(particleGeometry, particleMaterial)
     scene.add(particles)
 }
 
 generateGalaxy()
+
+gui.add(parameters, 'count')
+    .min(100)
+    .max(1000000)
+    .step(100)
+    .onChange(generateGalaxy)
+gui.add(parameters, 'size')
+    .min(0.001)
+    .max(0.1)
+    .step(0.001)
+    .onFinishChange(generateGalaxy)
+
+// problem: we generate a new galaxy but we do not remove the old one from the scene
 
 
 
