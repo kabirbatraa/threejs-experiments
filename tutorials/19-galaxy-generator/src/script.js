@@ -22,8 +22,11 @@ const scene = new THREE.Scene()
  * Galaxy
  */
 const parameters = {
-    count: 100000,
+    count: 1000,
     size: 0.01,
+    radius: 5,
+    branches: 3,
+    spin: 1,
 }
 
 let particleGeometry = null;
@@ -42,8 +45,24 @@ function generateGalaxy() {
     
     particleGeometry = new THREE.BufferGeometry()
     const vertices = new Float32Array(parameters.count*3)
-    for (let i = 0; i < parameters.count*3; i++) {
-        vertices[i] = Math.random()*2-1
+    for (let i = 0; i < parameters.count; i++) {
+        // random
+        // vertices[i*3+0] = Math.random()*2-1
+        // vertices[i*3+1] = Math.random()*2-1
+        // vertices[i*3+2] = Math.random()*2-1
+
+        const branchNumber = i % parameters.branches
+        const radius = Math.random() * parameters.radius
+
+        const angle = (branchNumber / parameters.branches) * Math.PI * 2
+        const spinAngle = parameters.spin * radius / parameters.radius
+        // const spinAngle = parameters.spin * radius
+        // I think my spin looks better than his so I'm going to keep mine
+
+        // galaxy shape
+        vertices[i*3+0] = radius * Math.sin(angle+spinAngle)
+        vertices[i*3+1] = 0
+        vertices[i*3+2] = radius * Math.cos(angle+spinAngle)
     }
     particleGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
     // Make sure to use PointsMaterial instead of any other material
@@ -60,16 +79,32 @@ function generateGalaxy() {
 
 generateGalaxy()
 
+// can use onFinishChange instead of onChange if framerate too lows
 gui.add(parameters, 'count')
     .min(100)
-    .max(1000000)
+    .max(10000)
     .step(100)
     .onChange(generateGalaxy)
 gui.add(parameters, 'size')
     .min(0.001)
     .max(0.1)
     .step(0.001)
-    .onFinishChange(generateGalaxy)
+    .onChange(generateGalaxy)
+gui.add(parameters, 'radius')
+    .min(0.01)
+    .max(29)
+    .step(0.01)
+    .onChange(generateGalaxy)
+gui.add(parameters, 'branches')
+    .min(2)
+    .max(20)
+    .step(1)
+    .onChange(generateGalaxy)
+gui.add(parameters, 'spin')
+    .min(-5)
+    .max(5)
+    .step(1)
+    .onChange(generateGalaxy)
 
 // problem: we generate a new galaxy but we do not remove the old one from the scene
 
