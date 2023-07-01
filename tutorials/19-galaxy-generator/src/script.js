@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
+import { lerp } from 'three/src/math/MathUtils'
 
 THREE.ColorManagement.enabled = false
 
@@ -29,8 +30,8 @@ const parameters = {
     spin: 6,
     variance: 1,
     randomBias: 4,
-    // insideColor: new THREE.Color('#f88437'),
-    // outsideColor: new THREE.Color('#6c2dda')
+    insideColor: new THREE.Color('#e6a98e'),
+    outsideColor: new THREE.Color('#6c2dda')
 
 }
 
@@ -50,6 +51,7 @@ function generateGalaxy() {
     
     particleGeometry = new THREE.BufferGeometry()
     const vertices = new Float32Array(parameters.count*3)
+    const colors = new Float32Array(parameters.count*3)
     for (let i = 0; i < parameters.count; i++) {
         // random
         // vertices[i*3+0] = Math.random()*2-1
@@ -88,16 +90,23 @@ function generateGalaxy() {
         vertices[i*3+0] = radius * Math.sin(angle+spinAngle) + variance.x
         vertices[i*3+1] = 0 + variance.y
         vertices[i*3+2] = radius * Math.cos(angle+spinAngle) + variance.z
+
+        // colors:
+        const t = radius/ parameters.radius;
+        colors[i*3+0] = lerp(parameters.insideColor.r, parameters.outsideColor.r, t)
+        colors[i*3+1] = lerp(parameters.insideColor.g, parameters.outsideColor.g, t)
+        colors[i*3+2] = lerp(parameters.insideColor.b, parameters.outsideColor.b, t)
     }
     particleGeometry.setAttribute('position', new THREE.BufferAttribute(vertices, 3))
+    particleGeometry.setAttribute('color', new THREE.BufferAttribute(colors, 3))
     // Make sure to use PointsMaterial instead of any other material
     particleMaterial = new THREE.PointsMaterial({
         size: parameters.size,
         sizeAttenuation: true,
         depthWrite: false,
         blending: THREE.AdditiveBlending,
-        color: '#f3f49c'
-        // vertexColors: true
+        // color: '#f3f49c'
+        vertexColors: true
     })
     particles = new THREE.Points(particleGeometry, particleMaterial)
     scene.add(particles)
@@ -146,6 +155,12 @@ gui.add(parameters, 'randomBias')
 .min(1)
 .max(10)
 .step(0.1)
+.onChange(generateGalaxy)
+
+gui.addColor(parameters, 'insideColor')
+.onChange(generateGalaxy)
+
+gui.addColor(parameters, 'outsideColor')
 .onChange(generateGalaxy)
 
 // problem: we generate a new galaxy but we do not remove the old one from the scene
