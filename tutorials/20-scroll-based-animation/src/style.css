@@ -7,12 +7,14 @@
 html,
 body
 {
-    overflow: hidden;
+    background: #1e1a20
+    /* overflow: hidden; */
+    /* remove to allow for scrolling */
 }
 
 .webgl
 {
-    position: fixed;
+    position: fixed; /* fixed so that the canvas stays in place as you scroll */
     top: 0;
     left: 0;
     outline: none;
