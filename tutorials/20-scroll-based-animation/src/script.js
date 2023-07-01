@@ -16,7 +16,9 @@ gradientTexture.magFilter = THREE.NearestFilter
 const gui = new dat.GUI()
 
 const parameters = {
-    materialColor: '#ffeded'
+    // materialColor: '#ffeded',
+    materialColor: '#701010',
+    
 }
 
 gui
@@ -62,12 +64,15 @@ const objectsDistance = 4;
 
 torus.position.y = objectsDistance*0
 // torus.scale.set(0.5, 0.5, 0.5)
+torus.position.x = 2
 
 // cone.visible = false;
 cone.position.y = objectsDistance*-1
+cone.position.x = -2
 
 torusKnot.position.y = objectsDistance*-2
 // torusKnot.scale.set(0.5, 0.5, 0.5)
+torusKnot.position.x = 2
 
 const sectionMeshes = [torus, cone, torusKnot]
 
@@ -121,6 +126,17 @@ renderer.outputColorSpace = THREE.LinearSRGBColorSpace
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
+
+/**
+ * Scroll
+ */
+let scrollY = window.scrollY;
+window.addEventListener('scroll', () => {
+    scrollY = window.scrollY
+    // scroll down means +scrollY in pixels
+})
+
+
 /**
  * Animate
  */
@@ -129,6 +145,10 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+
+    // camera follow scroll
+    // goal: delta scroll = viewport --> camera moves objectsDistance(4) units
+    camera.position.y = -scrollY / sizes.height * objectsDistance
 
     // Animate Meshes
     for(const mesh of sectionMeshes) {
