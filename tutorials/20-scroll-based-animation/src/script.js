@@ -3,6 +3,13 @@ import * as dat from 'lil-gui'
 
 THREE.ColorManagement.enabled = false
 
+/** 
+ * Import textures
+ */
+const textureLoader = new THREE.TextureLoader();
+const gradientTexture = textureLoader.load('textures/gradients/3.jpg')
+gradientTexture.magFilter = THREE.NearestFilter
+
 /**
  * Debug
  */
@@ -14,6 +21,9 @@ const parameters = {
 
 gui
     .addColor(parameters, 'materialColor')
+    .onChange(() => {
+        toonMaterial.color.set(parameters.materialColor)
+    })
 
 /**
  * Base
@@ -25,13 +35,49 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 /**
- * Test cube
+ * Objects
  */
-const cube = new THREE.Mesh(
-    new THREE.BoxGeometry(1, 1, 1),
-    new THREE.MeshBasicMaterial({ color: '#ff0000' })
+const toonMaterial = new THREE.MeshToonMaterial({
+    color: parameters.materialColor,
+    gradientMap: gradientTexture
+})
+const torus = new THREE.Mesh(
+    new THREE.TorusGeometry(1, 0.4, 16, 60),
+    // new THREE.MeshBasicMaterial({color: '#ff0000'})
+    toonMaterial
 )
-scene.add(cube)
+const cone = new THREE.Mesh(
+    new THREE.ConeGeometry(1, 2, 32),
+    // new THREE.MeshBasicMaterial({color: '#ff0000'})
+    toonMaterial
+)
+const torusKnot = new THREE.Mesh(
+    new THREE.TorusKnotGeometry(0.8, 0.35, 100, 16),
+    // new THREE.MeshBasicMaterial({color: '#ff0000'})
+    toonMaterial
+)
+scene.add(torus, cone, torusKnot)
+
+const objectsDistance = 4;
+
+torus.position.y = objectsDistance*0
+// torus.scale.set(0.5, 0.5, 0.5)
+
+// cone.visible = false;
+cone.position.y = objectsDistance*-1
+
+torusKnot.position.y = objectsDistance*-2
+// torusKnot.scale.set(0.5, 0.5, 0.5)
+
+const sectionMeshes = [torus, cone, torusKnot]
+
+/**
+ * Lights
+ */
+const directionalLight = new THREE.DirectionalLight('#ffffff', 1)
+directionalLight.position.set(1, 1, 0)
+scene.add(directionalLight  )
+
 
 /**
  * Sizes
@@ -83,6 +129,14 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+
+    // Animate Meshes
+    for(const mesh of sectionMeshes) {
+        mesh.rotation.x = elapsedTime*0.1
+        mesh.rotation.y = elapsedTime*0.12
+    }
+
+
 
     // Render
     renderer.render(scene, camera)
