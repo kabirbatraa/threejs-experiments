@@ -110,10 +110,13 @@ window.addEventListener('resize', () =>
 /**
  * Camera
  */
+// add camera to camera group
+const cameraGroup = new THREE.Group()
+scene.add(cameraGroup)
 // Base camera
 const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height, 0.1, 100)
 camera.position.z = 6
-scene.add(camera)
+cameraGroup.add(camera)
 
 /**
  * Renderer
@@ -138,17 +141,49 @@ window.addEventListener('scroll', () => {
 
 
 /**
+ * Cursor Movement
+ */
+const cursor = {
+    x: 0,
+    y: 0
+}
+window.addEventListener('mousemove', (event) => {
+    // cursor is -0.5 to 0.5
+    cursor.x = (event.clientX / sizes.width) - 0.5
+    cursor.y = event.clientY / sizes.height - 0.5
+    // down is positive
+    console.log(cursor)
+})
+
+
+/**
  * Animate
  */
 const clock = new THREE.Clock()
+let previousTime = clock.getElapsedTime();
 
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+    const deltaTime = elapsedTime - previousTime
+    previousTime = elapsedTime;
+
+    // Animate camera:
 
     // camera follow scroll
     // goal: delta scroll = viewport --> camera moves objectsDistance(4) units
     camera.position.y = -scrollY / sizes.height * objectsDistance
+
+    // parallax based on cursor
+    const parallaxX = cursor.x * 0.5
+    const parallaxY = -cursor.y * 0.5
+    // cameraGroup.position.set(parallaxX, parallaxY)
+    // to make it smooth, instead of moving directly to the correct position, 
+    // just move 1/10 closer
+    cameraGroup.position.x += (parallaxX - cameraGroup.position.x) * 4 * deltaTime
+    cameraGroup.position.y += (parallaxY - cameraGroup.position.y) * 4 * deltaTime
+
+
 
     // Animate Meshes
     for(const mesh of sectionMeshes) {
