@@ -18,13 +18,13 @@ const gui = new dat.GUI()
 const parameters = {
     // materialColor: '#ffeded',
     materialColor: '#701010',
-    
 }
 
 gui
     .addColor(parameters, 'materialColor')
     .onChange(() => {
         toonMaterial.color.set(parameters.materialColor)
+        particlesMaterial.color.set(parameters.materialColor)
     })
 
 /**
@@ -35,6 +35,8 @@ const canvas = document.querySelector('canvas.webgl')
 
 // Scene
 const scene = new THREE.Scene()
+
+
 
 /**
  * Objects
@@ -76,6 +78,38 @@ torusKnot.position.x = 2
 
 const sectionMeshes = [torus, cone, torusKnot]
 
+
+
+/**
+ * Particles
+ */
+const numParticles = 1000
+
+const minY = objectsDistance/2;
+const maxY = sectionMeshes.length*objectsDistance;
+
+const positions = new Float32Array(numParticles*3)
+for (let i = 0; i < numParticles; i++) {
+    positions[i*3+0] = (Math.random()-0.5) * 10
+    positions[i*3+1] = minY + -Math.random() * maxY
+    positions[i*3+2] = (Math.random()-0.5) * 10
+}
+// geometry
+const particlesGeometry = new THREE.BufferGeometry();
+particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3))
+// material
+const particlesMaterial = new THREE.PointsMaterial({
+    color: parameters.materialColor,
+    sizeAttenuation: true,
+    size: 0.03,
+})
+// points
+const particles = new THREE.Points(particlesGeometry, particlesMaterial)
+scene.add(particles)
+
+
+
+
 /**
  * Lights
  */
@@ -107,6 +141,8 @@ window.addEventListener('resize', () =>
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 })
 
+
+
 /**
  * Camera
  */
@@ -117,6 +153,8 @@ scene.add(cameraGroup)
 const camera = new THREE.PerspectiveCamera(35, sizes.width / sizes.height, 0.1, 100)
 camera.position.z = 6
 cameraGroup.add(camera)
+
+
 
 /**
  * Renderer
