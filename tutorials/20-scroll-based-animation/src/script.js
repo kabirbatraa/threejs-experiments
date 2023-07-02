@@ -1,5 +1,6 @@
 import * as THREE from 'three'
 import * as dat from 'lil-gui'
+import gsap from 'gsap'
 
 THREE.ColorManagement.enabled = false
 
@@ -172,11 +173,31 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
  * Scroll
  */
 let scrollY = window.scrollY;
+let currentSection = 0;
 window.addEventListener('scroll', () => {
     scrollY = window.scrollY
     // scroll down means +scrollY in pixels
-})
 
+    // when scrollY/sizes.height is a multiple of 1, 
+    // then we have reached the next section
+    const newSection = Math.round(scrollY / sizes.height)
+    if (newSection != currentSection) {
+        currentSection = newSection
+
+        // trigger spin
+        gsap.to(
+            sectionMeshes[newSection].rotation, 
+            {
+                duration: 2.5,
+                // ease: "power1.inOut",
+                ease: "back.inOut(2)",
+                x: '+=3',
+                y: '+=1.5',
+                z: '+=0.75'
+            }
+        )
+    }
+})
 
 /**
  * Cursor Movement
@@ -190,7 +211,6 @@ window.addEventListener('mousemove', (event) => {
     cursor.x = (event.clientX / sizes.width) - 0.5
     cursor.y = event.clientY / sizes.height - 0.5
     // down is positive
-    console.log(cursor)
 })
 
 
@@ -224,11 +244,17 @@ const tick = () =>
 
 
     // Animate Meshes
-    for(const mesh of sectionMeshes) {
-        mesh.rotation.x = elapsedTime*0.1
-        mesh.rotation.y = elapsedTime*0.12
-    }
+    // for(const mesh of sectionMeshes) {
+    //     mesh.rotation.x = elapsedTime*0.1
+    //     mesh.rotation.y = elapsedTime*0.12
+    // }
 
+    // instead of setting rotation, we can add to rotation and use delta time
+    // this allows for multiple occurences of adding to rotation (gsap)
+    for (const mesh of sectionMeshes) {
+        mesh.rotation.x += elapsedTime*0.1 * deltaTime * 0.1
+        mesh.rotation.y += elapsedTime*0.12 * deltaTime * 0.1
+    }
 
 
     // Render
