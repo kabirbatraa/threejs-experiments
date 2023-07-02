@@ -252,8 +252,8 @@ const tick = () =>
     // instead of setting rotation, we can add to rotation and use delta time
     // this allows for multiple occurences of adding to rotation (gsap)
     for (const mesh of sectionMeshes) {
-        mesh.rotation.x += elapsedTime*0.1 * deltaTime * 0.1
-        mesh.rotation.y += elapsedTime*0.12 * deltaTime * 0.1
+        mesh.rotation.x += 0.1 * deltaTime
+        mesh.rotation.y += 0.12 * deltaTime
     }
 
 
