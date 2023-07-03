@@ -49,6 +49,19 @@ const sphereBody = new CANNON.Body({
 })
 world.addBody(sphereBody)
 
+// floor body
+const floorShape = new CANNON.Plane()
+const floorBody = new CANNON.Body()
+floorBody.mass = 0
+floorBody.addShape(floorShape) // note u can add many shapes to 1 body
+floorBody.quaternion.setFromAxisAngle(
+    new CANNON.Vec3(-1, 0, 0), // axis
+    Math.PI * 0.5, // angle rotation
+) // need to make plane horizontal instead of vertical
+world.addBody(floorBody)
+
+
+
 /**
  * Test sphere
  */
