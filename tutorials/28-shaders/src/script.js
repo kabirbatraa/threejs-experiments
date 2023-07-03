@@ -65,12 +65,14 @@ const material = new THREE.RawShaderMaterial({
     transparent: true,
     uniforms: {
         uFrequency: { value: new THREE.Vector2(10, 5) },
-        uTime: { value: 0 }
+        uTime: { value: 0 },
+        uColor: { value: new THREE.Color('orange') },
     }
 })
 // add uniform uFrequency to datgui
 gui.add(material.uniforms.uFrequency.value, 'x').min(0).max(20).name('frequencyX')
 gui.add(material.uniforms.uFrequency.value, 'y').min(0).max(20).name('frequencyY')
+gui.addColor(material.uniforms.uColor, 'value')
 const uTimeParam = { uTimeMultiplier: 1 }
 gui.add(uTimeParam, 'uTimeMultiplier').min(0).max(20).name('waveSpeed')
 
