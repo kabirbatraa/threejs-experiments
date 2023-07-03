@@ -64,12 +64,15 @@ const material = new THREE.RawShaderMaterial({
     // side: THREE.DoubleSide,
     transparent: true,
     uniforms: {
-        uFrequency: { value: new THREE.Vector2(10, 5) } 
+        uFrequency: { value: new THREE.Vector2(10, 5) },
+        uTime: { value: 0 }
     }
 })
 // add uniform uFrequency to datgui
 gui.add(material.uniforms.uFrequency.value, 'x').min(0).max(20).name('frequencyX')
 gui.add(material.uniforms.uFrequency.value, 'y').min(0).max(20).name('frequencyY')
+const uTimeParam = { uTimeMultiplier: 1 }
+gui.add(uTimeParam, 'uTimeMultiplier').min(0).max(20).name('waveSpeed')
 
 // Mesh
 const mesh = new THREE.Mesh(geometry, material)
@@ -127,6 +130,9 @@ const clock = new THREE.Clock()
 const tick = () =>
 {
     const elapsedTime = clock.getElapsedTime()
+
+    // update material uniforms
+    material.uniforms.uTime.value = elapsedTime * uTimeParam.uTimeMultiplier;
 
     // Update controls
     controls.update()
