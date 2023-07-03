@@ -4,6 +4,8 @@ uniform mat4 modelMatrix; // contains threejs mesh's position rotation scale
 
 // can also replace viewMatrix and modelMatrix with modelViewMatrix
 
+uniform vec2 uFrequency;
+
 attribute vec3 position;
 attribute float aRandom;
 
@@ -19,8 +21,9 @@ void main() {
     vec4 modelPosition = modelMatrix * vec4(position, 1.0);
     // modelPosition.y += 0.5;
     // modelPosition.z += 0.5;
-    // modelPosition.z += sin(modelPosition.x * 10.0) * 0.2;
-    modelPosition.z += aRandom*0.2;
+    modelPosition.z += sin(modelPosition.x * uFrequency.x) * 0.15;
+    modelPosition.z += sin(modelPosition.y * uFrequency.y) * 0.15;
+    modelPosition.z += aRandom*0.05;
 
     vec4 viewPosition = viewMatrix * modelPosition;
     vec4 projectedPosition = projectionMatrix * viewPosition;

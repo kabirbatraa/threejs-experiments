@@ -63,7 +63,13 @@ const material = new THREE.RawShaderMaterial({
     // wireframe: true,
     // side: THREE.DoubleSide,
     transparent: true,
+    uniforms: {
+        uFrequency: { value: new THREE.Vector2(10, 5) } 
+    }
 })
+// add uniform uFrequency to datgui
+gui.add(material.uniforms.uFrequency.value, 'x').min(0).max(20).name('frequencyX')
+gui.add(material.uniforms.uFrequency.value, 'y').min(0).max(20).name('frequencyY')
 
 // Mesh
 const mesh = new THREE.Mesh(geometry, material)
