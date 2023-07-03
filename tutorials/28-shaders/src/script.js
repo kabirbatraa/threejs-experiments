@@ -51,7 +51,9 @@ const material = new THREE.RawShaderMaterial({
     //     }
     // `
     vertexShader: testVertexShader,
-    fragmentShader: testFragmentShader
+    fragmentShader: testFragmentShader,
+    // wireframe: true,
+    side: THREE.DoubleSide
 })
 
 // Mesh
