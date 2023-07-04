@@ -3,12 +3,16 @@
 
 uniform vec2 uFrequency;
 uniform float uTime;
+// uniform projection matrix etc are passed by default 
 
-attribute float aRandom;
+// attribute just means "in"
+in float aRandom;
+// attributes position, uv, normal are passed by default
 
-varying float vRandom;
-varying vec2 vUv;
-varying float vElevation;
+// varying just means "out"
+out float vRandom;
+out vec2 vUv;
+out float vElevation;
 
 void main() {
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
