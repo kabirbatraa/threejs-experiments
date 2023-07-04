@@ -22,6 +22,7 @@ const scene = new THREE.Scene()
  * Textures
  */
 const textureLoader = new THREE.TextureLoader()
+const frenchFlagTexture = textureLoader.load('/textures/flag-french.jpg')
 
 /**
  * Test mesh
@@ -67,6 +68,7 @@ const material = new THREE.RawShaderMaterial({
         uFrequency: { value: new THREE.Vector2(10, 5) },
         uTime: { value: 0 },
         uColor: { value: new THREE.Color('orange') },
+        uTexture: { value: frenchFlagTexture },
     }
 })
 // add uniform uFrequency to datgui
@@ -78,6 +80,7 @@ gui.add(uTimeParam, 'uTimeMultiplier').min(0).max(20).name('waveSpeed')
 
 // Mesh
 const mesh = new THREE.Mesh(geometry, material)
+mesh.scale.y = 2/3
 scene.add(mesh)
 
 /**
