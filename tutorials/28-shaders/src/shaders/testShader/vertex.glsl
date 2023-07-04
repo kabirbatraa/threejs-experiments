@@ -13,6 +13,7 @@ attribute vec2 uv;
 
 varying float vRandom;
 varying vec2 vUv;
+varying float vElevation;
 
 void main() {
     gl_Position = projectionMatrix * viewMatrix * modelMatrix * vec4(position, 1.0);
@@ -24,8 +25,10 @@ void main() {
     vec4 modelPosition = modelMatrix * vec4(position, 1.0);
     // modelPosition.y += 0.5;
     // modelPosition.z += 0.5;
-    modelPosition.z += sin(modelPosition.x * uFrequency.x - uTime) * 0.15;
-    modelPosition.z += sin(modelPosition.y * uFrequency.y + uTime) * 0.15;
+
+    float elevation = sin(modelPosition.x * uFrequency.x - uTime) * 0.15;
+    elevation += sin(modelPosition.y * uFrequency.y + uTime) * 0.15;
+    modelPosition.z += elevation;
     // modelPosition.z += aRandom*0.05;
 
     vec4 viewPosition = viewMatrix * modelPosition;
@@ -34,4 +37,5 @@ void main() {
 
     vRandom = aRandom; // will be automatically interpolated per fragment
     vUv = uv;
+    vElevation = elevation;
 }
