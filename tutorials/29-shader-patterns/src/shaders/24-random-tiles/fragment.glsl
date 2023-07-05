@@ -8,9 +8,7 @@ void main()
 {
     vec2 uv = v_uv;
     
-    vec2 gridUV;
-    gridUV.x = floor(uv.x * 10.) / 10.;
-    gridUV.y = floor((uv.y + uv.x/2.) * 10.) / 10.;
+    vec2 gridUV = floor(uv * 10.) / 10.;
     // float strength = gridUV.x * gridUV.y;
     float strength = random(gridUV);
 
