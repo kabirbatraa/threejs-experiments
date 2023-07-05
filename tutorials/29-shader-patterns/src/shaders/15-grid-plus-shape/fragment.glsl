@@ -3,7 +3,6 @@ varying vec2 v_uv;
 void main()
 {
     vec2 uv = v_uv;
-    uv += 0.05;
 
     // 0.4 -> 1 is white
     // move x bar by 0.2 to the right
