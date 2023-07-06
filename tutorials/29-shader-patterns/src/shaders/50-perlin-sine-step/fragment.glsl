@@ -71,15 +71,9 @@ void main()
     vec2 uv = v_uv;
     
     // perlin noise goes negative
-    float r = cnoise(uv * 10. + uTime);
-    r = step(0.8, sin(r * 20. + uTime*6.)); 
+    float strength = cnoise(uv * 10.);
+    strength = step(0.8, sin(strength * 20.)); 
 
-    float g = cnoise(uv * 10. + uTime);
-    g = step(0.8, sin(g * 20. + uTime*2.)); 
-
-    float b = cnoise(uv * 10. + uTime);
-    b = step(0.8, sin(b * 20. + uTime*4.)); 
-
-    // gl_FragColor = vec4(vec3(strength), 1.0);
-    gl_FragColor = vec4(r, g, b, 1.0);
+    gl_FragColor = vec4(vec3(strength), 1.0);
+    // gl_FragColor = vec4(r, g, 0.0, 1.0);
 }
