@@ -2,8 +2,6 @@
 
 varying vec2 v_uv;
 
-uniform float uTime;
-
 // float random(vec2 st) {
 //     return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
 // }
@@ -20,13 +18,9 @@ void main()
 {
     vec2 uv = v_uv;
 
-    vec2 freq = vec2(100.);
-    freq.x = sin(uTime / 5.) * 50.;
-    freq.y = sin(uTime / 5.) * 50.;
-
     vec2 wavyUV = vec2(
-        uv.y + 0.1*sin(uv.x*freq.x + uTime*10.),
-        uv.x + 0.1*sin(uv.y*freq.y + uTime*-20.)
+        uv.y + 0.1*sin(uv.x*30.),
+        uv.x + 0.1*sin(uv.y*30.)
     );
 
     float strength = 1. - step(
