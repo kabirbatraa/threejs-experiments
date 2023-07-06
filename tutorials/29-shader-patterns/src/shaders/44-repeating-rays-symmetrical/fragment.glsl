@@ -19,17 +19,19 @@ uniform float uTime;
 void main()
 {
     vec2 uv = v_uv;
-    vec2 vUv = uv;
 
-    float angle = atan(uv.y-0.5, uv.x-0.5);
-    float rays = sin(angle * 20.);
-    float amplitude = sin(uTime*3.) * 0.05;
+    uv -= 0.5; // center
 
-    float circle1 = distance(uv, vec2(0.5));
-    float circle2 = 0.3 + rays*amplitude;
-    float outline = abs(circle1 - circle2);
+    // +PI to start from bottom
+    // /2*PI to go from 0->1 in a full rotation
+    // float strength = (atan(uv.x, uv.y) + PI) / (2. * PI);
 
-    float strength = 1. - step(0.01, outline);
+    // rewriting because I want to do arctan(y/x)
+    // float strength = atan(uv.y, uv.x) / (2. * PI) + 0.5;
+    float strength = atan(uv.y, uv.x);
+
+    // strength = mod(strength*20., 1.);
+    strength = sin(strength * 20.);
 
     gl_FragColor = vec4(vec3(strength), 1.0);
 }
