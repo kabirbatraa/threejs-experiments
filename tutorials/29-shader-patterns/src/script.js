@@ -20,7 +20,7 @@ const scene = new THREE.Scene()
  * Test mesh
  */
 // Geometry
-const geometry = new THREE.PlaneGeometry(3, 3, 32, 32)
+const geometry = new THREE.PlaneGeometry(2, 2, 32, 32)
 
 // Material
 const material = new THREE.ShaderMaterial({
