@@ -1,6 +1,7 @@
 import { useFrame, extend, useThree } from "@react-three/fiber"
 import { useRef } from "react"
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import CustomObject from "./CustomObject"
 
 // name of html tag: imported thing
 // extend({ OrbitControls: OrbitControls })
@@ -21,7 +22,7 @@ export default function Experience() {
 
         console.log('tick') // every frame
         // to access threejs cube, we need to use cube.current
-        cube.current.rotation.y += deltaTime*10;
+        cube.current.rotation.y += deltaTime*2;
         group.current.rotation.y += deltaTime;
     })
 
@@ -29,23 +30,28 @@ export default function Experience() {
 
         <orbitControls args={[camera, gl.domElement]} />
 
+        <directionalLight position={[1, 2, 3]} intensity={1.5}/>
+        <ambientLight intensity={0.5}/>
+
         <group ref={group}>
-            <mesh position-y={3}>
+            {/* <mesh position-y={3}>
                 <torusKnotGeometry />
                 <meshNormalMaterial />
-            </mesh>
+            </mesh> */}
             <mesh position-x={-2} scale={ 1.5 }>
                 <sphereGeometry args={[1.5, 32, 32]} />
-                <meshBasicMaterial color="mediumpurple" wireframe={true} />
+                <meshStandardMaterial color="mediumpurple" wireframe={true} />
             </mesh>
             <mesh ref={cube} position-x={2} rotation-y={Math.PI/4} scale={[3, 0.5, 0.5]}>
                 <boxGeometry />
-                <meshBasicMaterial color="orange" />
+                <meshStandardMaterial color="orange" />
             </mesh>
         </group>
-        <mesh position-y={-2} rotation-x={-Math.PI/2} scale={[10, 2, 0]}>
+        <mesh position-y={-2} rotation-x={-Math.PI/2} scale={[10, 20, 1]}>
             <planeGeometry />
-            <meshBasicMaterial color="greenyellow" />
+            <meshStandardMaterial color="greenyellow" />
         </mesh>
+
+        <CustomObject />
     </>
 }
