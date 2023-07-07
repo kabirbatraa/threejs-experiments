@@ -9,6 +9,7 @@ const root = ReactDOM.createRoot(document.querySelector('#root'))
 
 root.render(
     <Canvas 
+        dpr={[1, 2]} // clamp pixel ratio between 1 and 2; this is default
         // flat
         gl={{
             // antialias: false
