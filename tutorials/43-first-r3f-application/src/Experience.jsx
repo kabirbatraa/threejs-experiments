@@ -3,6 +3,8 @@ import { useRef } from "react"
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import CustomObject from "./CustomObject"
 
+import * as THREE from 'three'
+
 // name of html tag: imported thing
 // extend({ OrbitControls: OrbitControls })
 extend({ OrbitControls })
@@ -15,7 +17,11 @@ export default function Experience() {
     const cube = useRef();
     const group = useRef();
 
+    // let elapsed = 0;
+
     useFrame((state, deltaTime) => {
+        // elapsed += deltaTime;
+        const elapsed = state.clock.elapsedTime;
 
         // state contains camera, renderer etc
             // use three also contains this
@@ -24,11 +30,21 @@ export default function Experience() {
         // to access threejs cube, we need to use cube.current
         cube.current.rotation.y += deltaTime*2;
         group.current.rotation.y += deltaTime;
+
+
+        // animate the camera:
+        state.camera.position.set(
+            10 * Math.sin(-elapsed/2),
+            2,
+            10 * Math.cos(-elapsed/2)
+        )
+        // state.camera.lookAt(new THREE.Vector3(0, 0, 0))
+        state.camera.lookAt(0, 0, 0)
     })
 
     return <>
 
-        <orbitControls args={[camera, gl.domElement]} />
+        {/* <orbitControls args={[camera, gl.domElement]} /> */}
 
         <directionalLight position={[1, 2, 3]} intensity={1.5}/>
         <ambientLight intensity={0.5}/>
