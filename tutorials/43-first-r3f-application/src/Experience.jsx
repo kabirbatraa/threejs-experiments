@@ -1,12 +1,24 @@
-import { useFrame } from "@react-three/fiber"
+import { useFrame, extend, useThree } from "@react-three/fiber"
 import { useRef } from "react"
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+
+// name of html tag: imported thing
+// extend({ OrbitControls: OrbitControls })
+extend({ OrbitControls })
 
 export default function Experience() {
+
+    const three = useThree();
+    const { camera, gl } = three;
 
     const cube = useRef();
     const group = useRef();
 
     useFrame((state, deltaTime) => {
+
+        // state contains camera, renderer etc
+            // use three also contains this
+
         console.log('tick') // every frame
         // to access threejs cube, we need to use cube.current
         cube.current.rotation.y += deltaTime*10;
@@ -14,6 +26,9 @@ export default function Experience() {
     })
 
     return <>
+
+        <orbitControls args={[camera, gl.domElement]} />
+
         <group ref={group}>
             <mesh position-y={3}>
                 <torusKnotGeometry />
