@@ -33,6 +33,7 @@ export default function Experience() {
 
 
         // animate the camera:
+        /*
         state.camera.position.set(
             10 * Math.sin(-elapsed/2),
             2,
@@ -40,11 +41,12 @@ export default function Experience() {
         )
         // state.camera.lookAt(new THREE.Vector3(0, 0, 0))
         state.camera.lookAt(0, 0, 0)
+        */
     })
 
     return <>
 
-        {/* <orbitControls args={[camera, gl.domElement]} /> */}
+        <orbitControls args={[camera, gl.domElement]} />
 
         <directionalLight position={[1, 2, 3]} intensity={1.5}/>
         <ambientLight intensity={0.5}/>

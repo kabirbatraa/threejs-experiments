@@ -3,11 +3,19 @@ import ReactDOM from 'react-dom/client'
 import { Canvas } from '@react-three/fiber'
 import { MeshNormalMaterial } from 'three'
 import Experience from './Experience.jsx'
+import * as THREE from 'three'
 
 const root = ReactDOM.createRoot(document.querySelector('#root'))
 
 root.render(
     <Canvas 
+        // flat
+        gl={{
+            // antialias: false
+            // toneMapping: THREE.CineonToneMapping
+            toneMapping: THREE.ACESFilmicToneMapping,
+            // outputColorSpace: THREE.LinearSRGBColorSpace
+        }}
         // orthographic
         camera={{
             fov: 45,
