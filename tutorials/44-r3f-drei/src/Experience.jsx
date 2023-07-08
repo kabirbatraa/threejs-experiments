@@ -24,7 +24,9 @@ export default function Experience() {
             <boxGeometry />
             <meshStandardMaterial color="mediumpurple" />
         </mesh>
-        <TransformControls object={cube} />
+        <TransformControls object={cube} mode="translate"/>
+        <TransformControls object={cube} mode="rotate"/>
+        <TransformControls object={cube} mode="scale"/>
 
         <mesh position-y={ - 1 } rotation-x={ - Math.PI * 0.5 } scale={ 10 }>
             <planeGeometry />
