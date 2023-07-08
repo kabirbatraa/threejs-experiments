@@ -1,11 +1,11 @@
-import { TransformControls, OrbitControls, PivotControls } from '@react-three/drei'
+import { TransformControls, OrbitControls, PivotControls, Html } from '@react-three/drei'
 
 import { useRef } from 'react'
 
 export default function Experience() {
 
     const cube = useRef();
-
+    const sphere = useRef();
 
     return <>
 
@@ -22,9 +22,18 @@ export default function Experience() {
             scale={100}
             fixed={true} // make the size the same, but based on 'scale' pixels
         >
-            <mesh position-x={ - 2 } scale={[1, 1.5,1]}>
+            <mesh ref={sphere} position-x={ - 2 } scale={[1, 1.5,1]}>
                 <sphereGeometry />
                 <meshStandardMaterial color="orange" />
+                <Html 
+                    position={[1.5, 1.5, 0]}
+                    wrapperClass="label"
+                    center
+                    distanceFactor={8}
+                    // occlude={[sphere, cube]} // very glitchy
+                >
+                    This was a sphere
+                </Html>
             </mesh>
         </PivotControls>
 
@@ -40,6 +49,7 @@ export default function Experience() {
             <planeGeometry />
             <meshStandardMaterial color="greenyellow" />
         </mesh>
+
 
     </>
 }
