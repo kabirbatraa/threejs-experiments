@@ -1,4 +1,4 @@
-import { Text, TransformControls, OrbitControls, PivotControls, Html } from '@react-three/drei'
+import { Float, Text, TransformControls, OrbitControls, PivotControls, Html } from '@react-three/drei'
 
 import { useRef } from 'react'
 
@@ -50,18 +50,24 @@ export default function Experience() {
             <meshStandardMaterial color="greenyellow" />
         </mesh>
 
-        <Text
-            // font='./bangers-v20-latin-regular.woff'
-            // font='./silkscreen-v1-latin-regular.woff2'
-            font='./silkscreen-v1-latin-regular.woff'
-            fontSize={1}
-            color="pink"
-            position-y={2}
-            maxWidth={8}
-            textAlign='center'
+
+        <Float
+            speed={4}
+            floatIntensity={3}
         >
-            Have a wonderful day!
-        </Text>
+            <Text
+                // font='./bangers-v20-latin-regular.woff'
+                // font='./silkscreen-v1-latin-regular.woff2'
+                font='./silkscreen-v1-latin-regular.woff'
+                fontSize={1}
+                color="pink"
+                position-y={2}
+                maxWidth={8}
+                textAlign='center'
+            >
+                Have a wonderful day!
+            </Text>
+        </Float>
 
     </>
 }
