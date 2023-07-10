@@ -78,6 +78,7 @@ const sphereBody = new CANNON.Body({
     // material: plasticMaterial,
     // material: defaultMaterial,
 })
+sphereBody.applyLocalForce(new CANNON.Vec3(200, 200, 0), new CANNON.Vec3(0, 0, 0))
 world.addBody(sphereBody)
 
 // floor body
