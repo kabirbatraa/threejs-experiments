@@ -69,6 +69,7 @@ const concretePlasticContactMaterial = new CANNON.ContactMaterial(
 world.addContactMaterial(concretePlasticContactMaterial);
  */
 
+/**
 // sphere body
 const sphereShape = new CANNON.Sphere(0.5) // radius
 const sphereBody = new CANNON.Body({
@@ -80,6 +81,7 @@ const sphereBody = new CANNON.Body({
 })
 sphereBody.applyLocalForce(new CANNON.Vec3(200, 200, 0), new CANNON.Vec3(0, 0, 0))
 world.addBody(sphereBody)
+ */
 
 // floor body
 const floorShape = new CANNON.Plane()
@@ -99,18 +101,18 @@ world.addBody(floorBody)
 /**
  * Test sphere
  */
-const sphere = new THREE.Mesh(
-    new THREE.SphereGeometry(0.5, 32, 32),
-    new THREE.MeshStandardMaterial({
-        metalness: 0.3,
-        roughness: 0.4,
-        envMap: environmentMapTexture,
-        envMapIntensity: 0.5
-    })
-)
-sphere.castShadow = true
-sphere.position.y = 0.5
-scene.add(sphere)
+// const sphere = new THREE.Mesh(
+//     new THREE.SphereGeometry(0.5, 32, 32),
+//     new THREE.MeshStandardMaterial({
+//         metalness: 0.3,
+//         roughness: 0.4,
+//         envMap: environmentMapTexture,
+//         envMapIntensity: 0.5
+//     })
+// )
+// sphere.castShadow = true
+// sphere.position.y = 0.5
+// scene.add(sphere)
 
 /**
  * Floor
@@ -193,6 +195,18 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap
 renderer.setSize(sizes.width, sizes.height)
 renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
+
+
+
+
+
+
+
+
+
+
+
+
 /**
  * Animate
  */
@@ -205,10 +219,14 @@ const tick = () =>
     const deltaTime = elapsedTime - previousTime
     previousTime = elapsedTime;
 
+    // update physics world
+    // apply wind force to sphere
+    // sphereBody.applyForce(new CANNON.Vec3(-1.5, 0, -0.5), sphereBody.position)
+
     // Update physics world
     world.step(1/60, deltaTime, 3)
         // fixed timestamp, time passed, #iterations if delayed
-    sphere.position.copy(sphereBody.position)
+    // sphere.position.copy(sphereBody.position)
 
     // Update controls
     controls.update()
