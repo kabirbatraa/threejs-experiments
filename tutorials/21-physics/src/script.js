@@ -286,7 +286,15 @@ const tick = () =>
     for (const obj of objectsArray) {
         obj.mesh.position.copy(obj.body.position)
     }
-    debugObject.createSphere()
+    // debugObject.createSphere()
+    createSphere(
+        0.5, 
+        new THREE.Vector3(
+            (Math.random()-.5) * 0.01, 
+            3, 
+            (Math.random()-.5) * 0.01
+        )
+    )
 
     // Update controls
     controls.update()
