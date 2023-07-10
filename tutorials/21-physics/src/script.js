@@ -261,6 +261,57 @@ gui.add(debugObject, 'createSphere')
 
 
 
+// create cubes:
+const createCubeGeometry = new THREE.BoxGeometry(1, 1, 1);
+const createCubeMaterial = new THREE.MeshStandardMaterial({
+    metalness: 0.3,
+    roughness: 0.4,
+    envMap: environmentMapTexture,
+    color: 'blue'
+})
+
+function createCube(width, position) {
+    // create THREE mesh
+    const mesh = new THREE.Mesh(
+        createCubeGeometry,
+        createCubeMaterial
+    )
+    mesh.scale.set(width, width, width);
+    mesh.castShadow = true;
+    mesh.position.copy(position);
+    scene.add(mesh)
+
+
+    // create CANNON body
+    const shape = new CANNON.Box(new CANNON.Vec3(width/2, width/2, width/2))
+    const body = new CANNON.Body({
+        mass: 1,
+        position: new CANNON.Vec3(0, 3, 0),
+        shape: shape,
+        material: defaultMaterial
+    })
+    body.position.copy(position);
+    world.addBody(body)
+
+
+    // add to objectsArray
+    objectsArray.push({
+        mesh: mesh,
+        body: body
+    })
+}
+
+debugObject.createBox = () => {
+    const width = 0.3 + Math.random()*0.3;
+    const position = new THREE.Vector3(
+        (Math.random()-0.5) * 3,
+        1 + Math.random() * 3,
+        (Math.random()-0.5) * 3,
+    )
+    createCube(width, position)
+}
+gui.add(debugObject, 'createBox')
+createCube(1, new THREE.Vector3(0, 3, 0))
 
 
 /**
@@ -287,14 +338,14 @@ const tick = () =>
         obj.mesh.position.copy(obj.body.position)
     }
     // debugObject.createSphere()
-    createSphere(
-        0.5, 
-        new THREE.Vector3(
-            (Math.random()-.5) * 0.01, 
-            3, 
-            (Math.random()-.5) * 0.01
-        )
-    )
+    // createSphere(
+    //     0.5, 
+    //     new THREE.Vector3(
+    //         (Math.random()-.5) * 0.01, 
+    //         3, 
+    //         (Math.random()-.5) * 0.01
+    //     )
+    // )
 
     // Update controls
     controls.update()
