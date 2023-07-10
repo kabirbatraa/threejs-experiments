@@ -9,6 +9,7 @@ THREE.ColorManagement.enabled = false
  * Debug
  */
 const gui = new dat.GUI()
+const debugObject = {}
 
 /**
  * Base
@@ -198,10 +199,61 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 
 
 
+/**
+ * Object generation Utils
+ */
+// contains objects: {mesh, body}
+const objectsArray = [];
+
+function createSphere(radius, position) {
+
+    // create THREE mesh
+    const mesh = new THREE.Mesh(
+        new THREE.SphereGeometry(radius, 20, 20),
+        new THREE.MeshStandardMaterial({
+            metalness: 0.3,
+            roughness: 0.4,
+            envMap: environmentMapTexture,
+        })
+    )
+    mesh.castShadow = true;
+    mesh.position.copy(position);
+    scene.add(mesh)
 
 
+    // create CANNON body
+    const shape = new CANNON.Sphere(radius)
+    const body = new CANNON.Body({
+        mass: 1,
+        position: new CANNON.Vec3(0, 3, 0),
+        shape: shape,
+        material: defaultMaterial
+    })
+    body.position.copy(position);
+    world.addBody(body)
 
 
+    // add to objectsArray
+    objectsArray.push({
+        mesh: mesh,
+        body: body
+    })
+
+}
+// createSphere(1, new THREE.Vector3(0, 2, 0))
+// createSphere(1, new THREE.Vector3(1, 3, 0))
+// createSphere(1, new THREE.Vector3(0, 2, 1))
+
+debugObject.createSphere = () => {
+    const radius = 0.05 + Math.random()*0.4;
+    const position = new THREE.Vector3(
+        (Math.random()-0.5) * 3,
+        1 + Math.random() * 3,
+        (Math.random()-0.5) * 3,
+    )
+    createSphere(radius, position)
+}
+gui.add(debugObject, 'createSphere')
 
 
 
@@ -227,6 +279,10 @@ const tick = () =>
     world.step(1/60, deltaTime, 3)
         // fixed timestamp, time passed, #iterations if delayed
     // sphere.position.copy(sphereBody.position)
+    for (const obj of objectsArray) {
+        obj.mesh.position.copy(obj.body.position)
+    }
+    debugObject.createSphere()
 
     // Update controls
     controls.update()
