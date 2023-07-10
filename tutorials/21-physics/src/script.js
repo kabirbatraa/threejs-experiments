@@ -205,17 +205,21 @@ renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2))
 // contains objects: {mesh, body}
 const objectsArray = [];
 
+const createSphereGeometry = new THREE.SphereGeometry(1, 20, 20);
+const createSphereMaterial = new THREE.MeshStandardMaterial({
+    metalness: 0.3,
+    roughness: 0.4,
+    envMap: environmentMapTexture,
+})
+
 function createSphere(radius, position) {
 
     // create THREE mesh
     const mesh = new THREE.Mesh(
-        new THREE.SphereGeometry(radius, 20, 20),
-        new THREE.MeshStandardMaterial({
-            metalness: 0.3,
-            roughness: 0.4,
-            envMap: environmentMapTexture,
-        })
+        createSphereGeometry,
+        createSphereMaterial
     )
+    mesh.scale.set(radius, radius, radius);
     mesh.castShadow = true;
     mesh.position.copy(position);
     scene.add(mesh)
