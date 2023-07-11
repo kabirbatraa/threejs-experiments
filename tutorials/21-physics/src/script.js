@@ -40,6 +40,7 @@ const environmentMapTexture = cubeTextureLoader.load([
  * Physics World
  */
 const world = new CANNON.World()
+world.broadphase = new CANNON.SAPBroadphase(world)
 world.gravity.set(0, -9.82, 0)
 
 // Materials (physics)
@@ -314,10 +315,14 @@ debugObject.createBox = () => {
 gui.add(debugObject, 'createBox')
 // createCube(1, new THREE.Vector3(0, 3, 0))
 
-for (let i = 0; i < 10; i++) {
-    debugObject.createBox()
-    debugObject.createSphere()
+debugObject.createHandful = () => {
+    for (let i = 0; i < 10; i++) {
+        debugObject.createBox()
+        debugObject.createSphere()
+    }
 }
+debugObject.createHandful()
+gui.add(debugObject, 'createHandful')
 
 /**
  * Animate
