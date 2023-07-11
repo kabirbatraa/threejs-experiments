@@ -210,6 +210,7 @@ const createSphereMaterial = new THREE.MeshStandardMaterial({
     metalness: 0.3,
     roughness: 0.4,
     envMap: environmentMapTexture,
+    color: 'hotpink'
 })
 
 function createSphere(radius, position) {
@@ -311,8 +312,12 @@ debugObject.createBox = () => {
     createCube(width, position)
 }
 gui.add(debugObject, 'createBox')
-createCube(1, new THREE.Vector3(0, 3, 0))
+// createCube(1, new THREE.Vector3(0, 3, 0))
 
+for (let i = 0; i < 10; i++) {
+    debugObject.createBox()
+    debugObject.createSphere()
+}
 
 /**
  * Animate
@@ -336,8 +341,10 @@ const tick = () =>
     // sphere.position.copy(sphereBody.position)
     for (const obj of objectsArray) {
         obj.mesh.position.copy(obj.body.position)
+        obj.mesh.quaternion.copy(obj.body.quaternion)
     }
     // debugObject.createSphere()
+    // debugObject.createBox()
     // createSphere(
     //     0.5, 
     //     new THREE.Vector3(
