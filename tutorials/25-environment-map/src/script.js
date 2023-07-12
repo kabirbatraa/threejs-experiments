@@ -2,12 +2,14 @@ import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
+import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
 
 /**
  * Loaders
  */
 const gltfLoader = new GLTFLoader();
 const cubeTextureLoader = new THREE.CubeTextureLoader()
+const rgbeLoader = new RGBELoader()
 
 /**
  * Base
@@ -43,23 +45,37 @@ function updateAllMaterials() {
  * Environment Map
  */
 // blurriness
-scene.backgroundBlurriness = 0.2 // useful when env map is low resolution
+scene.backgroundBlurriness = 0.0 // useful when env map is low resolution
 // global intensity
 global.envMapIntensity = 1;
 gui.add(global, 'envMapIntensity').min(0).max(10).step(0.001).onChange(updateAllMaterials)
 gui.add(scene, 'backgroundBlurriness').min(0).max(1).step(0.001).onChange(updateAllMaterials)
-// LDR cube texture (low dynamic range)
-const environmentMap = cubeTextureLoader.load([
-    'environmentMaps/0/px.png',
-    'environmentMaps/0/nx.png',
-    'environmentMaps/0/py.png',
-    'environmentMaps/0/ny.png',
-    'environmentMaps/0/pz.png',
-    'environmentMaps/0/nz.png',
-])
-scene.background = environmentMap
-scene.environment = environmentMap
 
+
+
+// // LDR cube texture (low dynamic range)
+// const environmentMap = cubeTextureLoader.load([
+//     'environmentMaps/0/px.png',
+//     'environmentMaps/0/nx.png',
+//     'environmentMaps/0/py.png',
+//     'environmentMaps/0/ny.png',
+//     'environmentMaps/0/pz.png',
+//     'environmentMaps/0/nz.png',
+// ])
+// scene.background = environmentMap
+// scene.environment = environmentMap
+
+// hdr (rgbe) equirectangular
+rgbeLoader.load(
+    'environmentMaps/0/2k.hdr',
+    (environmentMap) => {
+        environmentMap.mapping = THREE.EquirectangularReflectionMapping;
+        scene.background = environmentMap // for background color
+        scene.environment = environmentMap // for lighting
+    }
+)
+// hdri backgrounds are much brighter so you don't need to increase envMapIntensity
+// hdri backgrounds are much higher resolution so you don't need to blur the background
 
 /**
  * Torus Knot
