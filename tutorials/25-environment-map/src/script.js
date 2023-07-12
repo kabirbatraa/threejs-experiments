@@ -10,6 +10,7 @@ import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
 const gltfLoader = new GLTFLoader();
 const cubeTextureLoader = new THREE.CubeTextureLoader()
 const rgbeLoader = new RGBELoader()
+const textureLoader = new THREE.TextureLoader();
 
 /**
  * Base
@@ -65,17 +66,30 @@ gui.add(scene, 'backgroundBlurriness').min(0).max(1).step(0.001).onChange(update
 // scene.background = environmentMap
 // scene.environment = environmentMap
 
-// hdr (rgbe) equirectangular
-rgbeLoader.load(
-    'environmentMaps/0/2k.hdr',
-    (environmentMap) => {
-        environmentMap.mapping = THREE.EquirectangularReflectionMapping;
-        scene.background = environmentMap // for background color
-        scene.environment = environmentMap // for lighting
-    }
-)
+// hdr (high dynamic range) rgbe (rgb+exponent) equirectangular
+// rgbeLoader.load(
+//     'environmentMaps/0/2k.hdr',
+//     (environmentMap) => {
+//         environmentMap.mapping = THREE.EquirectangularReflectionMapping;
+//         scene.background = environmentMap // for background color
+//         scene.environment = environmentMap // for lighting
+//     }
+// )
 // hdri backgrounds are much brighter so you don't need to increase envMapIntensity
 // hdri backgrounds are much higher resolution so you don't need to blur the background
+
+// LDR (low dynamic range) equirectangular
+const envMapJPG = textureLoader.load(
+    // 'environmentMaps/blockadesLabsSkybox/scifi_white_sky_scrapers_in_clouds_at_day_time.jpg',
+    'environmentMaps/blockadesLabsSkybox/anime_art_style_japan_streets_with_cherry_blossom_.jpg',
+    
+)
+envMapJPG.colorSpace = THREE.SRGBColorSpace
+envMapJPG.mapping = THREE.EquirectangularReflectionMapping;
+scene.background = envMapJPG // for background color
+scene.environment = envMapJPG // for lighting
+global.envMapIntensity = 2;
+
 
 /**
  * Torus Knot
