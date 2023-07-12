@@ -22,11 +22,17 @@ const scene = new THREE.Scene()
  */
 const gltfLoader = new GLTFLoader();
 gltfLoader.load(
-    '/models/Duck/glTF/Duck.gltf', // path
+    // '/models/Duck/glTF/Duck.gltf', // path
+    // '/models/Duck/glTF-Binary/Duck.glb', // path
+    // '/models/Duck/glTF-Embedded/Duck.gltf', // path
+    // '/models/FlightHelmet/glTF/FlightHelmet.gltf', // path
+    '/models/DamagedHelmet/glTF/DamagedHelmet.gltf', // path
     (gltf) => {
         console.log("success")
         console.log(gltf)
-        scene.add(gltf.scene.children[0])
+        scene.add(gltf.scene)
+        // scene.add(gltf.scene.children[0])
+        gltf.scene.position.y += 1
     },
     // () => {
     //     console.log("progress")
