@@ -26,17 +26,21 @@ dracoLoader.setDecoderPath('/draco/') // copied from node modules
     // node_modules\three\examples\jsm\libs\draco
 // Now the draco loader can use web assembly to decompress faster
 
+let mixer = null; // for animations
 const gltfLoader = new GLTFLoader();
 gltfLoader.setDRACOLoader(dracoLoader)
 gltfLoader.load(
     // '/models/Duck/glTF/Duck.gltf', // path
-    // '/models/Duck/glTF-Binary/Duck.glb', // path
-    // '/models/Duck/glTF-Embedded/Duck.gltf', // path
-    // '/models/FlightHelmet/glTF/FlightHelmet.gltf', // path
-    // '/models/DamagedHelmet/glTF/DamagedHelmet.gltf', // path
+    // '/models/Duck/glTF-Binary/Duck.glb',
+    // '/models/Duck/glTF-Embedded/Duck.gltf', 
+    // '/models/FlightHelmet/glTF/FlightHelmet.gltf', 
+    // '/models/DamagedHelmet/glTF/DamagedHelmet.gltf', 
 
     // draco compressed version does not work unless we set the draco loader
-    '/models/Duck/glTF-Draco/Duck.gltf', // path
+    // '/models/Duck/glTF-Draco/Duck.gltf', 
+
+    // animated
+    '/models/Fox/glTF/Fox.gltf', 
 
 
     (gltf) => {
@@ -54,18 +58,24 @@ gltfLoader.load(
         // }
 
         // second solution: clone the array
-        const children = [...gltf.scene.children]
-        // note this is only a shallow copy, the gltf scene will be empty
-
-        for (const child of children) {
-            scene.add(child)
-        }
+        // const children = [...gltf.scene.children]
+        // // note this is only a shallow copy, the gltf scene will be empty
+        // for (const child of children) {
+        //     scene.add(child)
+        // }
 
         // most simple solution:
-        // scene.add(gltf.scene)
+        scene.add(gltf.scene)
 
-        // scene.add(gltf.scene)
-        // scene.add(gltf.scene.children[0])
+        gltf.scene.scale.set(0.025, 0.025, 0.025)
+
+        // Animations:
+        mixer = new THREE.AnimationMixer(gltf.scene)
+        const action = mixer.clipAction(gltf.animations[2])
+        action.play()
+
+        // update mixer in tick function
+
     },
     // () => {
     //     console.log("progress")
@@ -166,6 +176,10 @@ const tick = () =>
     const elapsedTime = clock.getElapsedTime()
     const deltaTime = elapsedTime - previousTime
     previousTime = elapsedTime
+
+    // update mixer (for animations)
+    if (mixer != null)
+        mixer.update(deltaTime)
 
     // Update controls
     controls.update()
