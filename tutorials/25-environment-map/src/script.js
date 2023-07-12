@@ -3,6 +3,7 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import * as dat from 'lil-gui'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader'
 import { RGBELoader } from 'three/examples/jsm/loaders/RGBELoader'
+import { GroundProjectedSkybox } from 'three/addons/objects/GroundProjectedSkybox'
 
 /**
  * Loaders
@@ -79,16 +80,33 @@ gui.add(scene, 'backgroundBlurriness').min(0).max(1).step(0.001).onChange(update
 // hdri backgrounds are much higher resolution so you don't need to blur the background
 
 // LDR (low dynamic range) equirectangular
-const envMapJPG = textureLoader.load(
-    // 'environmentMaps/blockadesLabsSkybox/scifi_white_sky_scrapers_in_clouds_at_day_time.jpg',
-    'environmentMaps/blockadesLabsSkybox/anime_art_style_japan_streets_with_cherry_blossom_.jpg',
+// const envMapJPG = textureLoader.load(
+//     // 'environmentMaps/blockadesLabsSkybox/scifi_white_sky_scrapers_in_clouds_at_day_time.jpg',
+//     'environmentMaps/blockadesLabsSkybox/anime_art_style_japan_streets_with_cherry_blossom_.jpg',
     
-)
-envMapJPG.colorSpace = THREE.SRGBColorSpace
-envMapJPG.mapping = THREE.EquirectangularReflectionMapping;
-scene.background = envMapJPG // for background color
-scene.environment = envMapJPG // for lighting
-global.envMapIntensity = 2;
+// )
+// envMapJPG.colorSpace = THREE.SRGBColorSpace
+// envMapJPG.mapping = THREE.EquirectangularReflectionMapping;
+// scene.background = envMapJPG // for background color
+// scene.environment = envMapJPG // for lighting
+// global.envMapIntensity = 2;
+
+
+// ground projected skybox
+rgbeLoader.load('environmentMaps/2/2k.hdr', (environmentMap) => {
+    environmentMap.mapping = THREE.EquirectangularReflectionMapping;
+    scene.environment = environmentMap // lighting
+    // scene.background = environmentMap // do not set background
+
+    // skybox
+    const skybox = new GroundProjectedSkybox(environmentMap);
+    skybox.scale.setScalar(50)
+    scene.add(skybox)
+
+    gui.add(skybox, 'radius', 1, 200, 0.1)
+    gui.add(skybox, 'height', 1, 200, 0.1)
+})
+
 
 
 /**
