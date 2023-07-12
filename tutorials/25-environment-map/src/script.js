@@ -14,6 +14,7 @@ const cubeTextureLoader = new THREE.CubeTextureLoader()
  */
 // Debug
 const gui = new dat.GUI()
+const global = {}
 
 // Canvas
 const canvas = document.querySelector('canvas.webgl')
@@ -31,7 +32,7 @@ function updateAllMaterials() {
 
         // increase envmap intensity of every material of every mesh
         if (child.isMesh && child.material.isMeshStandardMaterial) {
-            child.material.envMapIntensity = 5  
+            child.material.envMapIntensity = global.envMapIntensity
         }
     })
 }
@@ -41,6 +42,8 @@ function updateAllMaterials() {
 /**
  * Environment Map
  */
+global.envMapIntensity = 1;
+gui.add(global, 'envMapIntensity').min(0).max(10).step(0.001).onChange(updateAllMaterials)
 // LDR cube texture (low dynamic range)
 const environmentMap = cubeTextureLoader.load([
     'environmentMaps/0/px.png',
