@@ -25,14 +25,35 @@ gltfLoader.load(
     // '/models/Duck/glTF/Duck.gltf', // path
     // '/models/Duck/glTF-Binary/Duck.glb', // path
     // '/models/Duck/glTF-Embedded/Duck.gltf', // path
-    // '/models/FlightHelmet/glTF/FlightHelmet.gltf', // path
-    '/models/DamagedHelmet/glTF/DamagedHelmet.gltf', // path
+    '/models/FlightHelmet/glTF/FlightHelmet.gltf', // path
+    // '/models/DamagedHelmet/glTF/DamagedHelmet.gltf', // path
     (gltf) => {
         console.log("success")
         console.log(gltf)
-        scene.add(gltf.scene)
+
+        // the for loop is supposed to unintentionally remove children from the gltf.scene object
+        // for (const child of gltf.scene.children) {
+        //     scene.add(child)
+        // }
+
+        // potential solution: loop through children and add one by one
+        // while (gltf.scene.children.length != 0) {
+        //     scene.add(gltf.scene.children[0])
+        // }
+
+        // second solution: clone the array
+        const children = [...gltf.scene.children]
+        // note this is only a shallow copy, the gltf scene will be empty
+
+        for (const child of children) {
+            scene.add(child)
+        }
+
+        // most simple solution:
+        // scene.add(gltf.scene)
+
+        // scene.add(gltf.scene)
         // scene.add(gltf.scene.children[0])
-        gltf.scene.position.y += 1
     },
     // () => {
     //     console.log("progress")
