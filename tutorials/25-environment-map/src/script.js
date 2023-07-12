@@ -42,6 +42,9 @@ function updateAllMaterials() {
 /**
  * Environment Map
  */
+// blurriness
+scene.backgroundBlurriness = 0.2 // useful when env map is low resolution
+// global intensity
 global.envMapIntensity = 1;
 gui.add(global, 'envMapIntensity').min(0).max(10).step(0.001).onChange(updateAllMaterials)
 // LDR cube texture (low dynamic range)
