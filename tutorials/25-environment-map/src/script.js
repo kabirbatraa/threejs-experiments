@@ -47,6 +47,7 @@ scene.backgroundBlurriness = 0.2 // useful when env map is low resolution
 // global intensity
 global.envMapIntensity = 1;
 gui.add(global, 'envMapIntensity').min(0).max(10).step(0.001).onChange(updateAllMaterials)
+gui.add(scene, 'backgroundBlurriness').min(0).max(1).step(0.001).onChange(updateAllMaterials)
 // LDR cube texture (low dynamic range)
 const environmentMap = cubeTextureLoader.load([
     'environmentMaps/0/px.png',
