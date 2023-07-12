@@ -22,6 +22,23 @@ const canvas = document.querySelector('canvas.webgl')
 const scene = new THREE.Scene()
 
 /**
+ * Update all materials
+ */
+function updateAllMaterials() {
+    scene.traverse((child) => {
+        // console.log(child)
+        // will go through every child in the scene, called on load of gltf object
+
+        // increase envmap intensity of every material of every mesh
+        if (child.isMesh && child.material.isMeshStandardMaterial) {
+            child.material.envMapIntensity = 5  
+        }
+    })
+}
+
+
+
+/**
  * Environment Map
  */
 // LDR cube texture (low dynamic range)
@@ -65,6 +82,8 @@ gltfLoader.load(
     (gltf) => {
         gltf.scene.scale.set(10, 10, 10)
         scene.add(gltf.scene)
+
+        updateAllMaterials()
     }
 )
 
