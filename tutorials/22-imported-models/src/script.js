@@ -1,6 +1,7 @@
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js'
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js'
+import { DRACOLoader } from 'three/examples/jsm/loaders/DRACOLoader.js'
 import * as dat from 'lil-gui'
 
 THREE.ColorManagement.enabled = false
@@ -20,13 +21,24 @@ const scene = new THREE.Scene()
 /** 
  * Models
  */
+const dracoLoader = new DRACOLoader();
+dracoLoader.setDecoderPath('/draco/') // copied from node modules
+    // node_modules\three\examples\jsm\libs\draco
+// Now the draco loader can use web assembly to decompress faster
+
 const gltfLoader = new GLTFLoader();
+gltfLoader.setDRACOLoader(dracoLoader)
 gltfLoader.load(
     // '/models/Duck/glTF/Duck.gltf', // path
     // '/models/Duck/glTF-Binary/Duck.glb', // path
     // '/models/Duck/glTF-Embedded/Duck.gltf', // path
-    '/models/FlightHelmet/glTF/FlightHelmet.gltf', // path
+    // '/models/FlightHelmet/glTF/FlightHelmet.gltf', // path
     // '/models/DamagedHelmet/glTF/DamagedHelmet.gltf', // path
+
+    // draco compressed version does not work unless we set the draco loader
+    '/models/Duck/glTF-Draco/Duck.gltf', // path
+
+
     (gltf) => {
         console.log("success")
         console.log(gltf)
