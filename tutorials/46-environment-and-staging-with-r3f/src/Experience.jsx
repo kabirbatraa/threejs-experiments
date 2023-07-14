@@ -80,6 +80,7 @@ export default function Experience()
     return <>
 
         <Environment
+            background={true}
             files={[
                 './environmentMaps/2/nx.jpg',
                 './environmentMaps/2/py.jpg',
