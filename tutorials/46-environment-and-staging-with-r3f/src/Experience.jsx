@@ -91,7 +91,15 @@ export default function Experience()
             // ]}
             // files={'./environmentMaps/the_sky_is_on_fire_2k.hdr'}
             preset='night'
-        />
+        >
+            <mesh position-z={-5} scale={10}>
+                <planeGeometry/>
+                <meshBasicMaterial color="red"/>
+            </mesh>
+        </Environment>
+
+        
+
 
         <Perf position="top-left" />
 
