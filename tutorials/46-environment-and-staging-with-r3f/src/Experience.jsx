@@ -3,7 +3,9 @@ import {
     useHelper, 
     OrbitControls,
     BakeShadows,
-    SoftShadows
+    SoftShadows,
+    AccumulativeShadows,
+    RandomizedLight,
 } from '@react-three/drei'
 import { useRef } from 'react'
 import { Perf } from 'r3f-perf'
@@ -13,7 +15,7 @@ import { useControls } from 'leva'
 export default function Experience()
 {
     const directionalLight = useRef();
-    useHelper(directionalLight, THREE.DirectionalLightHelper, 1)
+    // useHelper(directionalLight, THREE.DirectionalLightHelper, 1)
 
     const cube = useRef()
     
@@ -22,19 +24,46 @@ export default function Experience()
         cube.current.rotation.y += delta * 0.2
     })
 
-    const {samples, rings} = useControls({
-        samples: {
-            value: 17,
-            step: 1,
+    // const {samples, rings} = useControls({
+    //     samples: {
+    //         value: 17,
+    //         step: 1,
+    //         min: 1,
+    //         max: 30
+    //     },
+    //     // rings: {
+    //     //     value: 11,
+    //     //     step: 1,
+    //     //     min: -30,
+    //     //     max: 30
+    //     // },
+    // })
+
+    const {amount, radius, intensity, ambient} = useControls({
+        amount: {
+            value: 8,
             min: 1,
-            max: 30
+            max: 10,
+            step: 1,
         },
-        // rings: {
-        //     value: 11,
-        //     step: 1,
-        //     min: -30,
-        //     max: 30
-        // },
+        radius: {
+            value: 1,
+            min: 0,
+            max: 4,
+            step: 0.01,
+        },
+        intensity: {
+            value: 1,
+            min: 0,
+            max: 3,
+            step: 0.01,
+        },
+        ambient: {
+            value: 0.5,
+            min: 0,
+            max: 3,
+            step: 0.01,
+        }
     })
 
     return <>
@@ -42,13 +71,36 @@ export default function Experience()
         {/* <BakeShadows /> */}
 
         {/* softshadows modify the shaders in threejs, so modifying these values during runtime will cause lag */}
-        <SoftShadows
+        {/* <SoftShadows
             frustum={3.75}
             size={50}
             near={9.5}
             samples={samples}
             rings={11}
-        />
+        /> */}
+
+
+        {/* place acumulative shadow plane right above the floor */}
+        <AccumulativeShadows
+            position={[0, -0.99, 0]}
+            scale={10}
+            color="#316d39"
+            opacity={0.8}
+            frames={1000}
+            temporal
+        >
+            {/* <directionalLight
+                position={ [ 1, 2, 3 ] } 
+                castShadow={true}
+            /> */}
+            <RandomizedLight
+                position={ [ 1, 2, 3 ] } 
+                amount={amount}
+                radius={radius}
+                intensity={intensity}
+                ambient={ambient}
+            />
+        </AccumulativeShadows>
 
         <Perf position="top-left" />
 
@@ -79,7 +131,7 @@ export default function Experience()
             <meshStandardMaterial color="mediumpurple" />
         </mesh>
 
-        <mesh receiveShadow position-y={ - 1 } rotation-x={ - Math.PI * 0.5 } scale={ 10 }>
+        <mesh position-y={ - 1 } rotation-x={ - Math.PI * 0.5 } scale={ 10 }>
             <planeGeometry />
             <meshStandardMaterial color="greenyellow" />
         </mesh>
