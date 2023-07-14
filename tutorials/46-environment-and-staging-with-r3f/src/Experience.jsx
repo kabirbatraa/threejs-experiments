@@ -22,13 +22,19 @@ export default function Experience()
         cube.current.rotation.y += delta * 0.2
     })
 
-    const {samples} = useControls({
+    const {samples, rings} = useControls({
         samples: {
             value: 17,
             step: 1,
             min: 1,
             max: 30
-        }
+        },
+        // rings: {
+        //     value: 11,
+        //     step: 1,
+        //     min: -30,
+        //     max: 30
+        // },
     })
 
     return <>
