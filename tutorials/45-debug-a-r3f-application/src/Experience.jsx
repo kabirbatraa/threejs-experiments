@@ -5,7 +5,7 @@ import { useControls } from 'leva'
 export default function Experience()
 {
 
-    const { position, color } = useControls({
+    const { position, color, visible } = useControls({
         position: {
             value: {x: -2, y: 0, }, 
             // min: -4,
@@ -13,7 +13,8 @@ export default function Experience()
             step: 0.01,
             joystick: 'invertY'
         },
-        color: '#ffff00'
+        color: '#ffff00', // does not work with alpha
+        visible: true,
     })
 
     return <>
@@ -23,7 +24,7 @@ export default function Experience()
         <directionalLight position={ [ 1, 2, 3 ] } intensity={ 1.5 } />
         <ambientLight intensity={ 0.5 } />
 
-        <mesh position={ [ position.x, position.y, 0 ] }>
+        <mesh position={ [ position.x, position.y, 0 ] } visible={visible} >
             <sphereGeometry />
             <meshStandardMaterial color={color} />
         </mesh>
