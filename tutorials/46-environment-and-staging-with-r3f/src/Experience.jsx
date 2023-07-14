@@ -22,6 +22,7 @@ export default function Experience()
     // useHelper(directionalLight, THREE.DirectionalLightHelper, 1)
 
     const cube = useRef()
+    const lightformer = useRef()
 
     const [{sunPosition}, setSunPosition] = useControls(() => {
         return {sunPosition: [1, 2, 3]}
@@ -50,6 +51,11 @@ export default function Experience()
         // setSunPosition({ sunPosition: sunPosition.toArray() })
         setSunPosition({ sunPosition: sunPosition.toArray() })
         // console.log(sunPosition.toArray())
+
+
+        // update rotation of light former
+        // inspired by https://codesandbox.io/s/building-live-envmaps-forked-924nk5?file=/src/App.js:2644-2668
+        lightformer.current.rotation.x = Math.sin(elapsedTime * 0.5) * 2 * Math.PI / 2
 
     })
 
@@ -82,6 +88,7 @@ export default function Experience()
 
         <Environment
             background={true}
+            blur={1}
             // files={[
             //     './environmentMaps/2/nx.jpg',
             //     './environmentMaps/2/py.jpg',
@@ -93,13 +100,15 @@ export default function Experience()
             // files={'./environmentMaps/the_sky_is_on_fire_2k.hdr'}
             // preset='night'
         >
-            <color args={['#111155']} attach="background"/>
+            <color args={['#4444aa']} attach="background"/>
             <Lightformer 
+                ref={lightformer}
                 position-z={-5} 
                 scale={10} 
                 color="red"
                 intensity={10}
                 form="ring"
+                rotation={[Math.PI / 4, 0, 0]}
             />
             {/* <mesh position-z={-5} scale={10}>
                 <planeGeometry/>
@@ -161,7 +170,7 @@ export default function Experience()
 
         <mesh position-y={ - 1 } rotation-x={ - Math.PI * 0.5 } scale={ 10 }>
             <planeGeometry />
-            <meshStandardMaterial color="greenyellow" envMapIntensity={envMapIntensity} />
+            <meshStandardMaterial color="gray" envMapIntensity={envMapIntensity} />
         </mesh>
 
     </>
