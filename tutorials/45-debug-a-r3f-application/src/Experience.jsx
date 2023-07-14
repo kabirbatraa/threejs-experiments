@@ -5,7 +5,7 @@ import { useControls } from 'leva'
 export default function Experience()
 {
 
-    const { position, color, visible } = useControls({
+    const { position, color, visible, myInterval } = useControls({
         position: {
             value: {x: -2, y: 0, }, 
             // min: -4,
@@ -15,6 +15,11 @@ export default function Experience()
         },
         color: '#ffff00', // does not work with alpha
         visible: true,
+        myInterval: {
+            min: -10,
+            max: 10,
+            value: [ -2, 3 ]
+        }
     })
 
     return <>
@@ -34,6 +39,12 @@ export default function Experience()
         <mesh position-y={ - 1 } rotation-x={ - Math.PI * 0.5 } scale={ 10 }>
             <planeGeometry />
             <meshStandardMaterial color="greenyellow" />
+        </mesh>
+
+        {/* interval test */}
+        <mesh position-y={3} position-x={ (myInterval[1] + myInterval[0])/2 } scale-x={ (myInterval[1] - myInterval[0]) } >
+            <boxGeometry />
+            <meshStandardMaterial color="cyan" />
         </mesh>
 
     </>
