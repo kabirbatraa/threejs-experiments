@@ -92,10 +92,10 @@ export default function Experience()
             // files={'./environmentMaps/the_sky_is_on_fire_2k.hdr'}
             // preset='night'
         >
-            <color args={['#4444aa']} attach="background"/>
+            <color args={['#111155']} attach="background"/>
             <mesh position-z={-5} scale={10}>
                 <planeGeometry/>
-                <meshBasicMaterial color="red"/>
+                <meshBasicMaterial color={[10, 0, 0]}/>
             </mesh>
         </Environment>
 
