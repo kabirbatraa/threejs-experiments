@@ -10,9 +10,9 @@ const root = ReactDOM.createRoot(document.querySelector('#root'))
 //     gl.setClearColor('#ff00ff', 1)
 // }
 
-function created({scene}) {
-    scene.background = new THREE.Color('cyan')
-}
+// function created({scene}) {
+//     scene.background = new THREE.Color('cyan')
+// }
 
 root.render(
     <Canvas
@@ -23,7 +23,7 @@ root.render(
             far: 200,
             position: [ - 4, 3, 6 ]
         } }
-        onCreated={created}
+        // onCreated={created}
     >
         {/* this code area is implicitly attached to the scene */}
         <color args= { ['blue'] } attach="ivory" /> 

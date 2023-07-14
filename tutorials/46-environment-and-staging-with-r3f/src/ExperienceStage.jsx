@@ -28,7 +28,14 @@ export default function Experience()
         <Perf position="top-left" />
         <OrbitControls makeDefault />
 
-        <Stage>
+        <Stage
+            shadows={{
+                type: 'contact',
+                opacity: 0.2,
+                blur: 3,
+            }}
+            environment='sunset'
+        >
             <mesh castShadow position-x={ - 2 } position-y={1}>
                 <sphereGeometry />
                 <meshStandardMaterial color="orange"  
