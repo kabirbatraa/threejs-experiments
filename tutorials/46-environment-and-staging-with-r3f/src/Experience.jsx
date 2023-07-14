@@ -20,6 +20,15 @@ export default function Experience()
     // useHelper(directionalLight, THREE.DirectionalLightHelper, 1)
 
     const cube = useRef()
+
+    const [{sunPosition}, setSunPosition] = useControls(() => {
+        return {sunPosition: [1, 2, 3]}
+    })
+        
+        
+        // 'sky', )
+
+    // const {sunPosition} = useControls({sunPosition: [1, 2, 3]})
     
     useFrame((state, delta) =>
     {
@@ -29,6 +38,16 @@ export default function Experience()
         // translate cube
         const elapsedTime = state.clock.elapsedTime
         cube.current.position.x = 2 + Math.sin(elapsedTime)
+
+        // control sun day-night cycle
+        // const spherical = new THREE.Spherical(10, Math.PI/4, 0); // radius, phi, theta
+        const spherical = new THREE.Spherical(10, elapsedTime, 0); // radius, phi, theta
+        const sunPosition = new THREE.Vector3().setFromSpherical(spherical)
+        // if (setSunPosition != null) setSunPosition(sunPosition)
+        // console.log(setSunPosition)
+        // setSunPosition({ sunPosition: sunPosition.toArray() })
+        setSunPosition({ sunPosition: sunPosition.toArray() })
+        // console.log(sunPosition.toArray())
 
     })
 
@@ -49,7 +68,6 @@ export default function Experience()
         bake: false,
     })
 
-    const {sunPosition} = useControls('sky', {sunPosition: [1, 2, 3]})
 
 
     return <>
