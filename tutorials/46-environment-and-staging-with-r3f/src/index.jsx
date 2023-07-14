@@ -24,6 +24,8 @@ root.render(
         } }
         onCreated={created}
     >
+        {/* this code area is implicitly attached to the scene */}
+        <color args= { ['blue'] } attach="ivory" /> 
         <Experience />
     </Canvas>
 )
