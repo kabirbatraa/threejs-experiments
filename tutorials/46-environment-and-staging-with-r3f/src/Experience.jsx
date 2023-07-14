@@ -33,6 +33,13 @@ export default function Experience()
             position={ [ 1, 2, 3 ] } 
             intensity={ 1.5 } 
             castShadow={true}
+            shadow-mapSize={[1024, 1024]}
+            shadow-camera-left={-2}
+            shadow-camera-right={2}
+            shadow-camera-bottom={-5}
+            shadow-camera-top={5}
+            shadow-camera-near={0.1}
+            shadow-camera-far={5}
         />
         <ambientLight intensity={ 0.5 } />
 
