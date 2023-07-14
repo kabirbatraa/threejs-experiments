@@ -5,7 +5,7 @@ import { button, useControls } from 'leva'
 
 export default function Experience()
 {
-    const { position, color, visible, myInterval } = useControls({
+    const { position, color, visible, myInterval } = useControls('sphere', {
         position: {
             value: {x: -2, y: 0, }, 
             // min: -4,
@@ -25,6 +25,15 @@ export default function Experience()
         }),
         choice: {
             options: [ 'a', 'b', 'c' ],
+        },
+    })
+
+    const { scale } = useControls('cube', {
+        scale: {
+            value: 1,
+            min: 0.1,
+            max: 10,
+            step: 0.1,
         }
     })
 
@@ -40,7 +49,7 @@ export default function Experience()
             <meshStandardMaterial color={color} />
         </mesh>
 
-        <Cube scale={3} />
+        <Cube scale={scale} />
 
         <mesh position-y={ - 1 } rotation-x={ - Math.PI * 0.5 } scale={ 10 }>
             <planeGeometry />
