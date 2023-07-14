@@ -90,8 +90,9 @@ export default function Experience()
             //     './environmentMaps/2/px.jpg',
             // ]}
             // files={'./environmentMaps/the_sky_is_on_fire_2k.hdr'}
-            preset='night'
+            // preset='night'
         >
+            <color args={['#4444aa']} attach="background"/>
             <mesh position-z={-5} scale={10}>
                 <planeGeometry/>
                 <meshBasicMaterial color="red"/>
