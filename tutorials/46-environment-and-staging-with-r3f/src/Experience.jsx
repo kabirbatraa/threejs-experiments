@@ -89,7 +89,8 @@ export default function Experience()
             //     './environmentMaps/2/nz.jpg',
             //     './environmentMaps/2/px.jpg',
             // ]}
-            files={'./environmentMaps/the_sky_is_on_fire_2k.hdr'}
+            // files={'./environmentMaps/the_sky_is_on_fire_2k.hdr'}
+            preset='night'
         />
 
         <Perf position="top-left" />
