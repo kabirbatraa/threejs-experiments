@@ -6,7 +6,8 @@ import {
     SoftShadows,
     AccumulativeShadows,
     RandomizedLight,
-    ContactShadows
+    ContactShadows,
+    Sky,
 } from '@react-three/drei'
 import { useRef } from 'react'
 import { Perf } from 'r3f-perf'
@@ -48,6 +49,8 @@ export default function Experience()
         bake: false,
     })
 
+    const {sunPosition} = useControls('sky', {sunPosition: [1, 2, 3]})
+
 
     return <>
 
@@ -68,26 +71,6 @@ export default function Experience()
             frames={bake ? 1 : Infinity}
         />
 
-        {/* failed attempt to make a wall shadow */}
-        {/* <ContactShadows
-            rotateX={Math.PI/8}
-            // position={[0, 4, -5]}
-            position={[0, -0.5, 0]}
-            scale={10}
-            resolution={1024}
-            // far={5}
-
-            color={'#ffffff'}
-            opacity={1}
-            blur={0}
-
-            frames={bake ? 1 : Infinity}
-        />
-        <mesh position-y={ 4 } position-z={-5} scale={ 10 }>
-            <planeGeometry />
-            <meshStandardMaterial color="greenyellow" />
-        </mesh> */}
-
         <directionalLight 
             ref={directionalLight} 
             position={ [ 1, 2, 3 ] } 
@@ -102,6 +85,10 @@ export default function Experience()
             shadow-camera-far={10}
         />
         <ambientLight intensity={ 0.5 } />
+
+        <Sky
+            sunPosition={sunPosition}
+        />
 
         <mesh castShadow position-x={ - 2 }>
             <sphereGeometry />
