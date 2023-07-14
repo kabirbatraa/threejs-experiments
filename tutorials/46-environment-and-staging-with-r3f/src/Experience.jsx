@@ -73,7 +73,7 @@ export default function Experience()
 
         <directionalLight 
             ref={directionalLight} 
-            position={ [ 1, 2, 3 ] } 
+            position={ sunPosition } 
             intensity={ 1.5 } 
             castShadow={true}
             shadow-mapSize={[1024, 1024]}
