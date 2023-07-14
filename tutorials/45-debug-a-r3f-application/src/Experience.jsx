@@ -1,10 +1,10 @@
 import { OrbitControls } from '@react-three/drei'
 import Cube from './Cube'
-import { useControls } from 'leva'
+import { button, useControls } from 'leva'
+// import * as THREE from 'three'
 
 export default function Experience()
 {
-
     const { position, color, visible, myInterval } = useControls({
         position: {
             value: {x: -2, y: 0, }, 
@@ -19,7 +19,10 @@ export default function Experience()
             min: -10,
             max: 10,
             value: [ -2, 3 ]
-        }
+        },
+        clickMe: button(() => {
+            console.log('hi')
+        })
     })
 
     return <>
