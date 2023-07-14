@@ -5,10 +5,14 @@ import { useControls } from 'leva'
 export default function Experience()
 {
 
-    const controls = useControls({
-        position: -2
+    const { position } = useControls({
+        position: {
+            value: -2, 
+            min: -4,
+            max: 4,
+            step: 0.01
+        }
     })
-    const position = controls.position;
 
     return <>
 
