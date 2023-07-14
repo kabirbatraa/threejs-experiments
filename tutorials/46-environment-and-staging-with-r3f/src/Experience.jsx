@@ -21,7 +21,13 @@ export default function Experience()
     
     useFrame((state, delta) =>
     {
+        // rotate cube
         cube.current.rotation.y += delta * 0.2
+
+        // translate cube
+        const elapsedTime = state.clock.elapsedTime
+        cube.current.position.x = 2 + Math.sin(elapsedTime)
+
     })
 
     // const {samples, rings} = useControls({
@@ -39,32 +45,33 @@ export default function Experience()
     //     // },
     // })
 
-    const {amount, radius, intensity, ambient} = useControls({
-        amount: {
-            value: 8,
-            min: 1,
-            max: 10,
-            step: 1,
-        },
-        radius: {
-            value: 1,
-            min: 0,
-            max: 4,
-            step: 0.01,
-        },
-        intensity: {
-            value: 1,
-            min: 0,
-            max: 3,
-            step: 0.01,
-        },
-        ambient: {
-            value: 0.5,
-            min: 0,
-            max: 3,
-            step: 0.01,
-        }
-    })
+    // const {amount, radius, intensity, ambient} = useControls({
+    //     amount: {
+    //         value: 8,
+    //         min: 1,
+    //         max: 10,
+    //         step: 1,
+    //     },
+    //     radius: {
+    //         value: 1,
+    //         min: 0,
+    //         max: 4,
+    //         step: 0.01,
+    //     },
+    //     intensity: {
+    //         value: 1,
+    //         min: 0,
+    //         max: 3,
+    //         step: 0.01,
+    //     },
+    //     ambient: {
+    //         value: 0.5,
+    //         min: 0,
+    //         max: 3,
+    //         step: 0.01,
+    //     }
+    // })
+
 
     return <>
 
@@ -86,8 +93,9 @@ export default function Experience()
             scale={10}
             color="#316d39"
             opacity={0.8}
-            frames={1000}
+            frames={Infinity}
             temporal
+            blend={100} // blend 100 instead of default 20 last shadows together
         >
             {/* <directionalLight
                 position={ [ 1, 2, 3 ] } 
@@ -95,10 +103,14 @@ export default function Experience()
             /> */}
             <RandomizedLight
                 position={ [ 1, 2, 3 ] } 
-                amount={amount}
-                radius={radius}
-                intensity={intensity}
-                ambient={ambient}
+                // amount={amount}
+                // radius={radius}
+                // intensity={intensity}
+                // ambient={ambient}
+                amount={8}
+                radius={1}
+                intensity={1}
+                ambient={0.5}
             />
         </AccumulativeShadows>
 
