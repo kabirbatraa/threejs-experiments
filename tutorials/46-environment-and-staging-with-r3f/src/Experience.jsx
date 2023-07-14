@@ -22,7 +22,7 @@ export default function Experience()
     // useHelper(directionalLight, THREE.DirectionalLightHelper, 1)
 
     const cube = useRef()
-    const lightformer = useRef()
+    // const lightformer = useRef()
 
     const [{sunPosition}, setSunPosition] = useControls(() => {
         return {sunPosition: [1, 2, 3]}
@@ -55,12 +55,12 @@ export default function Experience()
 
         // update rotation of light former
         // inspired by https://codesandbox.io/s/building-live-envmaps-forked-924nk5?file=/src/App.js:2644-2668
-        lightformer.current.rotation.x = Math.sin(elapsedTime * 0.5) * 2 * Math.PI / 2
+        // lightformer.current.rotation.x = Math.sin(elapsedTime * 0.5) * 2 * Math.PI / 2
 
     })
 
     const {color, opacity, blur, bake} = useControls('contact shadows', {
-        color: '#00ffff',
+        color: '#222222',
         opacity: {
             value: 0.5,
             min: 0,
@@ -68,7 +68,7 @@ export default function Experience()
             step: 0.01,
         },
         blur: {
-            value: 3,
+            value: 2,
             min: 0,
             max: 10,
             step: 0.01,
@@ -88,7 +88,7 @@ export default function Experience()
 
         <Environment
             background={true}
-            blur={1}
+            // blur={1}
             // files={[
             //     './environmentMaps/2/nx.jpg',
             //     './environmentMaps/2/py.jpg',
@@ -98,9 +98,14 @@ export default function Experience()
             //     './environmentMaps/2/px.jpg',
             // ]}
             // files={'./environmentMaps/the_sky_is_on_fire_2k.hdr'}
-            // preset='night'
+            preset='sunset'
+            ground={{
+                height: 7,
+                radius: 28,
+                scale: 100
+            }}
         >
-            <color args={['#4444aa']} attach="background"/>
+            {/* <color args={['#4444aa']} attach="background"/>
             <Lightformer 
                 ref={lightformer}
                 position-z={-5} 
@@ -110,7 +115,7 @@ export default function Experience()
                 form="ring"
                 rotation={[Math.PI / 4, 0, 0]}
             />
-            {/* <mesh position-z={-5} scale={10}>
+            <mesh position-z={-5} scale={10}>
                 <planeGeometry/>
                 <meshBasicMaterial color={[10, 0, 0]}/>
             </mesh> */}
@@ -124,7 +129,7 @@ export default function Experience()
         <OrbitControls makeDefault />
 
         <ContactShadows
-            position={[0, -0.99, 0]}
+            position={[0, 0, 0]}
             scale={10}
             resolution={1024}
             far={5}
@@ -155,7 +160,7 @@ export default function Experience()
             sunPosition={sunPosition}
         /> */}
 
-        <mesh castShadow position-x={ - 2 }>
+        <mesh castShadow position-x={ - 2 } position-y={1}>
             <sphereGeometry />
             <meshStandardMaterial color="orange" envMapIntensity={envMapIntensity} 
                 metalness={0.95}
@@ -163,15 +168,15 @@ export default function Experience()
             />
         </mesh>
 
-        <mesh castShadow ref={ cube } position-x={ 2 } scale={ 1.5 }>
+        <mesh castShadow ref={ cube } position-x={ 2 } scale={ 1.5 } position-y={1}>
             <boxGeometry />
             <meshStandardMaterial color="mediumpurple" envMapIntensity={envMapIntensity} />
         </mesh>
 
-        <mesh position-y={ - 1 } rotation-x={ - Math.PI * 0.5 } scale={ 10 }>
+        {/* <mesh position-y={ 0 } rotation-x={ - Math.PI * 0.5 } scale={ 10 }>
             <planeGeometry />
             <meshStandardMaterial color="gray" envMapIntensity={envMapIntensity} />
-        </mesh>
+        </mesh> */}
 
     </>
 }
