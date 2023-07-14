@@ -34,7 +34,9 @@ export default function Experience()
                 opacity: 0.2,
                 blur: 3,
             }}
-            environment='sunset'
+            // environment='sunset'
+            preset='portrait'
+            intensity={3}
         >
             <mesh castShadow position-x={ - 2 } position-y={1}>
                 <sphereGeometry />
