@@ -22,7 +22,10 @@ export default function Experience()
         },
         clickMe: button(() => {
             console.log('hi')
-        })
+        }),
+        choice: {
+            options: [ 'a', 'b', 'c' ],
+        }
     })
 
     return <>
