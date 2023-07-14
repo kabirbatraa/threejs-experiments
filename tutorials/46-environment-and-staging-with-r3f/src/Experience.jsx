@@ -6,6 +6,7 @@ import {
     SoftShadows,
     AccumulativeShadows,
     RandomizedLight,
+    ContactShadows
 } from '@react-three/drei'
 import { useRef } from 'react'
 import { Perf } from 'r3f-perf'
@@ -30,93 +31,62 @@ export default function Experience()
 
     })
 
-    // const {samples, rings} = useControls({
-    //     samples: {
-    //         value: 17,
-    //         step: 1,
-    //         min: 1,
-    //         max: 30
-    //     },
-    //     // rings: {
-    //     //     value: 11,
-    //     //     step: 1,
-    //     //     min: -30,
-    //     //     max: 30
-    //     // },
-    // })
-
-    // const {amount, radius, intensity, ambient} = useControls({
-    //     amount: {
-    //         value: 8,
-    //         min: 1,
-    //         max: 10,
-    //         step: 1,
-    //     },
-    //     radius: {
-    //         value: 1,
-    //         min: 0,
-    //         max: 4,
-    //         step: 0.01,
-    //     },
-    //     intensity: {
-    //         value: 1,
-    //         min: 0,
-    //         max: 3,
-    //         step: 0.01,
-    //     },
-    //     ambient: {
-    //         value: 0.5,
-    //         min: 0,
-    //         max: 3,
-    //         step: 0.01,
-    //     }
-    // })
+    const {color, opacity, blur, bake} = useControls('contact shadows', {
+        color: '#00ffff',
+        opacity: {
+            value: 0.5,
+            min: 0,
+            max: 1,
+            step: 0.01,
+        },
+        blur: {
+            value: 3,
+            min: 0,
+            max: 10,
+            step: 0.01,
+        },
+        bake: false,
+    })
 
 
     return <>
 
-        {/* <BakeShadows /> */}
-
-        {/* softshadows modify the shaders in threejs, so modifying these values during runtime will cause lag */}
-        {/* <SoftShadows
-            frustum={3.75}
-            size={50}
-            near={9.5}
-            samples={samples}
-            rings={11}
-        /> */}
-
-
-        {/* place acumulative shadow plane right above the floor */}
-        <AccumulativeShadows
-            position={[0, -0.99, 0]}
-            scale={10}
-            color="#316d39"
-            opacity={0.8}
-            frames={Infinity}
-            temporal
-            blend={100} // blend 100 instead of default 20 last shadows together
-        >
-            {/* <directionalLight
-                position={ [ 1, 2, 3 ] } 
-                castShadow={true}
-            /> */}
-            <RandomizedLight
-                position={ [ 1, 2, 3 ] } 
-                // amount={amount}
-                // radius={radius}
-                // intensity={intensity}
-                // ambient={ambient}
-                amount={8}
-                radius={1}
-                intensity={1}
-                ambient={0.5}
-            />
-        </AccumulativeShadows>
-
         <Perf position="top-left" />
 
         <OrbitControls makeDefault />
+
+        <ContactShadows
+            position={[0, -0.99, 0]}
+            scale={10}
+            resolution={1024}
+            far={5}
+
+            color={color}
+            opacity={opacity}
+            blur={blur}
+
+            frames={bake ? 1 : Infinity}
+        />
+
+        {/* failed attempt to make a wall shadow */}
+        {/* <ContactShadows
+            rotateX={Math.PI/8}
+            // position={[0, 4, -5]}
+            position={[0, -0.5, 0]}
+            scale={10}
+            resolution={1024}
+            // far={5}
+
+            color={'#ffffff'}
+            opacity={1}
+            blur={0}
+
+            frames={bake ? 1 : Infinity}
+        />
+        <mesh position-y={ 4 } position-z={-5} scale={ 10 }>
+            <planeGeometry />
+            <meshStandardMaterial color="greenyellow" />
+        </mesh> */}
 
         <directionalLight 
             ref={directionalLight} 

@@ -16,7 +16,7 @@ function created({scene}) {
 
 root.render(
     <Canvas
-        shadows={true}
+        // shadows={true}
         camera={ {
             fov: 45,
             near: 0.1,
