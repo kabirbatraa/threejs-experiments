@@ -72,7 +72,7 @@ export default function Experience()
 
     // control env map intensity
     const {envMapIntensity} = useControls('environment map', {
-        envMapIntensity: {value: 3.5, min: 0, max: 12},
+        envMapIntensity: {value: 1, min: 0, max: 12},
     })
 
 
@@ -81,14 +81,15 @@ export default function Experience()
 
         <Environment
             background={true}
-            files={[
-                './environmentMaps/2/nx.jpg',
-                './environmentMaps/2/py.jpg',
-                './environmentMaps/2/ny.jpg',
-                './environmentMaps/2/pz.jpg',
-                './environmentMaps/2/nz.jpg',
-                './environmentMaps/2/px.jpg',
-            ]}
+            // files={[
+            //     './environmentMaps/2/nx.jpg',
+            //     './environmentMaps/2/py.jpg',
+            //     './environmentMaps/2/ny.jpg',
+            //     './environmentMaps/2/pz.jpg',
+            //     './environmentMaps/2/nz.jpg',
+            //     './environmentMaps/2/px.jpg',
+            // ]}
+            files={'./environmentMaps/the_sky_is_on_fire_2k.hdr'}
         />
 
         <Perf position="top-left" />
