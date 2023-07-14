@@ -6,6 +6,11 @@ import { Perf } from 'r3f-perf'
 
 export default function Experience()
 {
+
+    const { perfVisible } = useControls({
+        perfVisible: false,
+    })
+
     const { position, color, visible, myInterval } = useControls('sphere', {
         position: {
             value: {x: -2, y: 0, }, 
@@ -40,8 +45,7 @@ export default function Experience()
 
     return <>
 
-        <Perf position="top-left" />
-
+        { perfVisible && <Perf position="top-left" />}
         <OrbitControls makeDefault />
 
         <directionalLight position={ [ 1, 2, 3 ] } intensity={ 1.5 } />
