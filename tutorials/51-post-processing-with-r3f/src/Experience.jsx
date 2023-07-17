@@ -1,9 +1,16 @@
 import { OrbitControls } from '@react-three/drei'
 import { Perf } from 'r3f-perf'
+import { EffectComposer, Vignette } from '@react-three/postprocessing'
+import Effect from './Effect'
 
 export default function Experience()
 {
     return <>
+
+        {/* <Effect /> */}
+        <EffectComposer multisampling={0}>
+            <Vignette/>
+        </EffectComposer>
 
         <Perf position="top-left" />
 
