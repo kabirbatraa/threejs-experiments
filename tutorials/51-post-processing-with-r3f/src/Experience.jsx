@@ -10,12 +10,15 @@ export default function Experience()
 {
     return <>
 
+        {/* Add background color to scene */}
+        <color args={[ '#ffffff' ]} attach={'background'} />
+
         {/* <Effect /> */}
         <EffectComposer multisampling={0}>
             <Vignette 
                 offset={0.3} 
                 darkness={0.9} 
-                blendFunction={BlendFunction.COLOR_BURN} // default is NORMAL
+                // blendFunction={BlendFunction.COLOR_BURN} // default is NORMAL
             />
         </EffectComposer>
 
