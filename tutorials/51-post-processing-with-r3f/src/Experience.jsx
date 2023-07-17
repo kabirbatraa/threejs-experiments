@@ -9,7 +9,7 @@ export default function Experience()
 
         {/* <Effect /> */}
         <EffectComposer multisampling={0}>
-            <Vignette/>
+            <Vignette offset={0.3} darkness={0.9}/>
         </EffectComposer>
 
         <Perf position="top-left" />
