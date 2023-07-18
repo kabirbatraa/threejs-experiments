@@ -4,17 +4,27 @@ import {
     EffectComposer, 
     Vignette,
     Glitch,
+    Noise, 
 } from '@react-three/postprocessing'
 import {
     BlendFunction,
     GlitchMode
 } from 'postprocessing'
+import {useControls} from 'leva'
 
 import Effect from './Effect'
 
 
-export default function Experience()
-{
+export default function Experience() {
+
+    console.log(BlendFunction)
+    let { blendFunction } = useControls({
+        blendFunction: {
+            options: [...(Object.entries(BlendFunction).sort((a, b) => a[1] - b[1]))]
+        }
+    })
+    blendFunction = blendFunction[1] // just the number
+
     return <>
 
         {/* Add background color to scene */}
@@ -27,11 +37,15 @@ export default function Experience()
                 darkness={0.9} 
                 // blendFunction={BlendFunction.COLOR_BURN} // default is NORMAL
             /> */}
-            <Glitch
+            {/* <Glitch
                 delay={[0.5, 1]}
                 duration={[0.1, 0.3]}
                 strength={[0.2, 0.4]}
                 mode={GlitchMode.CONSTANT_MILD}
+            /> */}
+            <Noise 
+                // blendFunction={BlendFunction.SOFT_LIGHT}
+                blendFunction={blendFunction}
             />
         </EffectComposer>
 
