@@ -7,6 +7,7 @@ import {
     Noise, 
     Bloom,
     DepthOfField,
+    SSR, // screenspace reflection
 } from '@react-three/postprocessing'
 import {
     BlendFunction,
@@ -19,52 +20,12 @@ import Effect from './Effect'
 
 export default function Experience() {
 
-    let blendFunctionOptions = (Object.entries(BlendFunction).sort((a, b) => a[1] - b[1]))
-    blendFunctionOptions = blendFunctionOptions.filter((value) => {
-        return (value[1] == BlendFunction.OVERLAY || value[1] == BlendFunction.SCREEN || value[1] == BlendFunction.SOFT_LIGHT || value[1] == BlendFunction.AVERAGE)
-    })
-
-    let { blendFunction } = useControls({
-        blendFunction: {
-            value: blendFunctionOptions[3],
-            options: blendFunctionOptions
-        }
-    })
-    blendFunction = blendFunction[1] // just the number
-
     return <>
 
         {/* Add background color to scene */}
         <color args={[ '#ffffff' ]} attach={'background'} />
 
-        {/* <Effect /> */}
-        <EffectComposer>
-            {/* <Vignette 
-                offset={0.3} 
-                darkness={0.9} 
-                // blendFunction={BlendFunction.COLOR_BURN} // default is NORMAL
-            /> */}
-            {/* <Glitch
-                delay={[0.5, 1]}
-                duration={[0.1, 0.3]}
-                strength={[0.2, 0.4]}
-                mode={GlitchMode.CONSTANT_MILD}
-            /> */}
-            {/* <Noise 
-                premultiply
-                blendFunction={blendFunction}
-            /> */}
-            {/* <Bloom
-                mipmapBlur // allow bloom to go past cube mesh
-                intensity={0.1}
-                luminanceThreshold={0} // default is around 0.9, 0 means allow everything to glow
-            /> */}
-            <DepthOfField
-                focusDistance={0.025}
-                focalLength={0.025}
-                bokehScale={6}
-            />
-        </EffectComposer>
+        <Effect />
 
         <Perf position="top-left" />
 
@@ -86,7 +47,7 @@ export default function Experience() {
 
         <mesh receiveShadow position-y={ - 1 } rotation-x={ - Math.PI * 0.5 } scale={ 10 }>
             <planeGeometry />
-            <meshStandardMaterial color="greenyellow" />
+            <meshStandardMaterial color="black" metalness={0} roughness={0} />
         </mesh>
 
     </>
