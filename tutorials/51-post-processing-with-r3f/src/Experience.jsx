@@ -38,7 +38,7 @@ export default function Experience() {
         <color args={[ '#ffffff' ]} attach={'background'} />
 
         {/* <Effect /> */}
-        <EffectComposer multisampling={0}>
+        <EffectComposer>
             {/* <Vignette 
                 offset={0.3} 
                 darkness={0.9} 
