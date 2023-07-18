@@ -6,6 +6,7 @@ import {
     Glitch,
     Noise, 
     Bloom,
+    DepthOfField,
 } from '@react-three/postprocessing'
 import {
     BlendFunction,
@@ -34,7 +35,7 @@ export default function Experience() {
     return <>
 
         {/* Add background color to scene */}
-        <color args={[ '#000000' ]} attach={'background'} />
+        <color args={[ '#ffffff' ]} attach={'background'} />
 
         {/* <Effect /> */}
         <EffectComposer multisampling={0}>
@@ -53,10 +54,15 @@ export default function Experience() {
                 premultiply
                 blendFunction={blendFunction}
             /> */}
-            <Bloom
+            {/* <Bloom
                 mipmapBlur // allow bloom to go past cube mesh
                 intensity={0.1}
                 luminanceThreshold={0} // default is around 0.9, 0 means allow everything to glow
+            /> */}
+            <DepthOfField
+                focusDistance={0.025}
+                focalLength={0.025}
+                bokehScale={6}
             />
         </EffectComposer>
 
@@ -74,7 +80,8 @@ export default function Experience() {
 
         <mesh castShadow position-x={ 2 } scale={ 1.5 }>
             <boxGeometry />
-            <meshBasicMaterial color={[1.5 * 10, 1 * 10, 4 * 10]} toneMapped={false} />
+            {/* <meshBasicMaterial color={[1.5 * 10, 1 * 10, 4 * 10]} toneMapped={false} /> */}
+            <meshStandardMaterial color="mediumpurple" />
         </mesh>
 
         <mesh receiveShadow position-y={ - 1 } rotation-x={ - Math.PI * 0.5 } scale={ 10 }>
