@@ -5,6 +5,7 @@ import {
     Vignette,
     Glitch,
     Noise, 
+    Bloom,
 } from '@react-three/postprocessing'
 import {
     BlendFunction,
@@ -33,7 +34,7 @@ export default function Experience() {
     return <>
 
         {/* Add background color to scene */}
-        <color args={[ '#ffffff' ]} attach={'background'} />
+        <color args={[ '#000000' ]} attach={'background'} />
 
         {/* <Effect /> */}
         <EffectComposer multisampling={0}>
@@ -48,9 +49,12 @@ export default function Experience() {
                 strength={[0.2, 0.4]}
                 mode={GlitchMode.CONSTANT_MILD}
             /> */}
-            <Noise 
+            {/* <Noise 
                 premultiply
                 blendFunction={blendFunction}
+            /> */}
+            <Bloom
+                mipmapBlur // allow bloom to go past cube mesh
             />
         </EffectComposer>
 
@@ -68,7 +72,7 @@ export default function Experience() {
 
         <mesh castShadow position-x={ 2 } scale={ 1.5 }>
             <boxGeometry />
-            <meshStandardMaterial color="mediumpurple" />
+            <meshStandardMaterial color={[1.5, 1, 4]} toneMapped={false} />
         </mesh>
 
         <mesh receiveShadow position-y={ - 1 } rotation-x={ - Math.PI * 0.5 } scale={ 10 }>
