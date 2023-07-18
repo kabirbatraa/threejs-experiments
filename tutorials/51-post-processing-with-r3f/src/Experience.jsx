@@ -72,7 +72,7 @@ export default function Experience() {
 
         <mesh castShadow position-x={ 2 } scale={ 1.5 }>
             <boxGeometry />
-            <meshStandardMaterial color="white" emissive="orange" emissiveIntensity={2} toneMapped={false} />
+            <meshBasicMaterial color={[1.5, 1, 4]} toneMapped={false} />
         </mesh>
 
         <mesh receiveShadow position-y={ - 1 } rotation-x={ - Math.PI * 0.5 } scale={ 10 }>
