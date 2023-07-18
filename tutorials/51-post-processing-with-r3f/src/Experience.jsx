@@ -17,10 +17,14 @@ import Effect from './Effect'
 
 export default function Experience() {
 
-    console.log(BlendFunction)
+    let blendFunctionOptions = (Object.entries(BlendFunction).sort((a, b) => a[1] - b[1]))
+    blendFunctionOptions = blendFunctionOptions.filter((value) => {
+        return (value[1] == BlendFunction.OVERLAY || value[1] == BlendFunction.SCREEN || value[1] == BlendFunction.SOFT_LIGHT || value[1] == BlendFunction.AVERAGE)
+    })
+
     let { blendFunction } = useControls({
         blendFunction: {
-            options: [...(Object.entries(BlendFunction).sort((a, b) => a[1] - b[1]))]
+            options: blendFunctionOptions
         }
     })
     blendFunction = blendFunction[1] // just the number
