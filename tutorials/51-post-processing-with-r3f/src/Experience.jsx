@@ -24,6 +24,7 @@ export default function Experience() {
 
     let { blendFunction } = useControls({
         blendFunction: {
+            value: blendFunctionOptions[3],
             options: blendFunctionOptions
         }
     })
@@ -48,7 +49,7 @@ export default function Experience() {
                 mode={GlitchMode.CONSTANT_MILD}
             /> */}
             <Noise 
-                // blendFunction={BlendFunction.SOFT_LIGHT}
+                premultiply
                 blendFunction={blendFunction}
             />
         </EffectComposer>
