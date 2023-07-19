@@ -15,7 +15,7 @@ import {
 } from 'postprocessing'
 import {useControls} from 'leva'
 
-import Effect from './Effect'
+// import Effect from './EffectSSR'
 
 
 export default function Experience() {
@@ -25,7 +25,10 @@ export default function Experience() {
         {/* Add background color to scene */}
         <color args={[ '#ffffff' ]} attach={'background'} />
 
-        <Effect />
+        {/* <Effect /> */}
+        <EffectComposer>
+            
+        </EffectComposer>
 
         <Perf position="top-left" />
 
