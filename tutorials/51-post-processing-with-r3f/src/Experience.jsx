@@ -27,7 +27,7 @@ export default function Experience() {
 
     const drunkProps = useControls('drunk effects', {
         frequency: {
-            value: 20,
+            value: 2,
             min: 0, 
             max: 100,
         },
