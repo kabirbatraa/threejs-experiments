@@ -15,11 +15,14 @@ import {
 } from 'postprocessing'
 import {useControls} from 'leva'
 import Drunk from './Drunk'
+import { useRef } from 'react'
 
 // import Effect from './EffectSSR'
 
 
 export default function Experience() {
+
+    const drunkRef = useRef(); // function components cannot use refs, so we use forward ref
 
     return <>
 
@@ -28,7 +31,11 @@ export default function Experience() {
 
         {/* <Effect /> */}
         <EffectComposer>
-            <Drunk/>
+            <Drunk
+                ref={drunkRef}
+                frequency={2}
+                amplitude={0.1}
+            />
         </EffectComposer>
 
         <Perf position="top-left" />
