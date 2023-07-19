@@ -14,6 +14,7 @@ import {
     GlitchMode
 } from 'postprocessing'
 import {useControls} from 'leva'
+import Drunk from './Drunk'
 
 // import Effect from './EffectSSR'
 
@@ -27,7 +28,7 @@ export default function Experience() {
 
         {/* <Effect /> */}
         <EffectComposer>
-            
+            <Drunk/>
         </EffectComposer>
 
         <Perf position="top-left" />
