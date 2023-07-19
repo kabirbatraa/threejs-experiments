@@ -16,6 +16,7 @@ import {
 import {useControls} from 'leva'
 import Drunk from './Drunk'
 import { useRef } from 'react'
+import TestShader from './TestShader'
 
 // import Effect from './EffectSSR'
 
@@ -23,6 +24,20 @@ import { useRef } from 'react'
 export default function Experience() {
 
     const drunkRef = useRef(); // function components cannot use refs, so we use forward ref
+
+    const drunkProps = useControls('drunk effects', {
+        frequency: {
+            value: 20,
+            min: 0, 
+            max: 100,
+        },
+        amplitude: {
+            value: 0.1,
+            min: 0, 
+            max: 0.2,
+            step: 0.001
+        }
+    })
 
     return <>
 
@@ -33,8 +48,13 @@ export default function Experience() {
         <EffectComposer>
             <Drunk
                 ref={drunkRef}
-                frequency={2}
-                amplitude={0.1}
+                // frequency={frequency}
+                // amplitude={amplitude}
+                {...drunkProps}
+                // blendFunction={ BlendFunction.DARKEN } // darken is default now
+            />
+            <TestShader
+                blendFunction={ BlendFunction.DARKEN }
             />
         </EffectComposer>
 
