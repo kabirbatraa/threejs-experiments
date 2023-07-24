@@ -8,24 +8,68 @@ import {
     Bloom,
     DepthOfField,
     SSR, // screenspace reflection
+    SSAO,
 } from '@react-three/postprocessing'
 import {
     BlendFunction,
     GlitchMode
 } from 'postprocessing'
 import {useControls} from 'leva'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import SSAOHelper from './SSAOHelper'
-
-// import Effect from './EffectSSR'
+import SSAOHelper2 from './SSAOHelper2'
+import SSAOHelper3 from './SSAOHelper3'
+import SSAOHelper4 from './SSAOHelper4'
 
 
 export default function Experience() {
 
+    // const config = useControls({
+    //     samples: {
+    //         value: 10,
+    //     },
+    //     radius: 5,
+    //     intensity: {
+    //         value: 20,
+    //     },
+    //     bias: 0.5,
+    // });
+
+    // const effectComposer = useRef()
+    // console.log(effectComposer)
+    // if (effectComposer.current != undefined)
+    //     effectComposer.current.render();
+
+    console.log('rerender Experience')
+    const [dummy, setDummy] = useState(0)
+
+    function callbackFunction() {
+        console.log('callbackFunction')
+        setDummy((prev) => (prev+1));
+    }
+
+    const {multisampling} = useControls({
+        multisampling: {
+            value: 8,
+            step: 1,
+            min:0,
+            max:10,
+        }
+    })
+
     return <>
 
-        <EffectComposer>
-            <SSAOHelper/>
+        {/* <EffectComposer>
+            <SSAO
+                blendFunction={BlendFunction.MULTIPLY}
+                {...config}
+            />
+        </EffectComposer> */}
+
+        <EffectComposer multisampling={multisampling}>
+            {/* <SSAOHelper3 /> */}
+            {/* <SSAOHelper callbackFunction={callbackFunction}/> */}
+            <SSAOHelper4 callbackFunction={callbackFunction}/>
         </EffectComposer>
 
         <Perf position="top-left" />
