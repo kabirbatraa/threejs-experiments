@@ -3,6 +3,7 @@ import { useGLTF } from '@react-three/drei'
 
 export default function Model() {
 
+    // const model = useGLTF('./FlightHelmet/glTF/FlightHelmet.gltf')
     // const model = useGLTF('./hamburger.glb')
     const model = useGLTF('./hamburger-draco.glb')
 
@@ -12,3 +13,6 @@ export default function Model() {
     </>
 
 }
+
+// starts preloading at the moment Model is imported
+useGLTF.preload('./hamburger-draco.glb')
