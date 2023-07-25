@@ -3,6 +3,7 @@ import { Perf } from 'r3f-perf'
 import { Suspense } from 'react'
 
 import Model from './Model'
+import Placeholder from './Placeholder'
 
 export default function Experience()
 {
@@ -32,7 +33,9 @@ export default function Experience()
         </mesh>
 
         {/* lazy loading: skip model if it has not loaded yet */}
-        <Suspense>
+        <Suspense
+            fallback={ <Placeholder /> }
+        >
             <Model />
         </Suspense>
 
