@@ -34,7 +34,7 @@ export default function Experience()
 
         {/* lazy loading: skip model if it has not loaded yet */}
         <Suspense
-            fallback={ <Placeholder /> }
+            fallback={ <Placeholder position-y={0.5} scale={[2, 3, 2]} /> }
         >
             <Model />
         </Suspense>
