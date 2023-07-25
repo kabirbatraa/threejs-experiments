@@ -10,7 +10,7 @@ export default function Experience()
 {
 
     const { enableModel } = useControls({
-        enableModel: false,
+        enableModel: true,
     })
 
     return <>
