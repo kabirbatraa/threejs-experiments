@@ -5,6 +5,7 @@ import { useControls }  from 'leva'
 
 import Model from './Model'
 import Placeholder from './Placeholder'
+import Hamburger from './Hamburger'
 
 export default function Experience()
 {
@@ -41,7 +42,8 @@ export default function Experience()
         <Suspense
             fallback={ <Placeholder position-y={0.5} scale={[2, 3, 2]} /> }
         >
-            {enableModel && <Model />}
+            {/* {enableModel && <Model />} */}
+            {enableModel && <Hamburger scale={0.35} />}
         </Suspense>
 
     </>
