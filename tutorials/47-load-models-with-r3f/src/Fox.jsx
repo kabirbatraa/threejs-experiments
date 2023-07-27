@@ -1,8 +1,22 @@
-import { useGLTF } from "@react-three/drei";
+import { useAnimations, useGLTF } from "@react-three/drei";
+import { useEffect } from "react";
 
 
 export default function Fox() {
     const fox = useGLTF('./Fox/glTF/Fox.gltf');
+    const animations = useAnimations(fox.animations, fox.scene);
+
+    // print all animation actions available
+    // useAnimations automatically creates actions based on the animation clips
+    // useAnimations also takes care of updating the animation each frame
+    console.log(animations.actions);
+    // Walk, Survey, Run
+
+    // only first render
+    useEffect(() => {
+        const action = animations.actions.Run;
+        action.play();
+    } ,[])
 
     return <>
         <primitive 
