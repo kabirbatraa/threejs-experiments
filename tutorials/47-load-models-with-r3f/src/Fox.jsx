@@ -1,6 +1,6 @@
 import { useAnimations, useGLTF } from "@react-three/drei";
 import { useEffect } from "react";
-
+import { useControls } from "leva"
 
 export default function Fox() {
     const fox = useGLTF('./Fox/glTF/Fox.gltf');
@@ -9,22 +9,32 @@ export default function Fox() {
     // print all animation actions available
     // useAnimations automatically creates actions based on the animation clips
     // useAnimations also takes care of updating the animation each frame
-    console.log(animations.actions);
+    // console.log(animations.actions);
     // Walk, Survey, Run
+
+    const { animationName } = useControls({
+        animationName: {
+            options: ["Survey", "Walk", "Run"]
+        }
+    })
 
     // only first render
     useEffect(() => {
-        const action = animations.actions.Run;
-        action.play();
+        // const action = animations.actions.Run;
+        const action = animations.actions[animationName];
+        // reset to start animation at beginning, fade in and play
+        action
+            .reset()
+            .fadeIn(0.5)
+            .play();
 
-        // wait 2 seconds before doing this
-        window.setTimeout(() => {
-            animations.actions.Walk.play();
-            // action.stop();
-            animations.actions.Walk.crossFadeFrom(animations.actions.Run, 1);
-        }, 2000)
+        // called when the value changes
+        return () => {
+            // fade out will also stop the animation
+            action.fadeOut(0.5);
+        }
 
-    } ,[])
+    }, [animationName])
 
     return <>
         <primitive 
