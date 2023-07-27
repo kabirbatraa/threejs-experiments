@@ -16,6 +16,14 @@ export default function Fox() {
     useEffect(() => {
         const action = animations.actions.Run;
         action.play();
+
+        // wait 2 seconds before doing this
+        window.setTimeout(() => {
+            animations.actions.Walk.play();
+            action.stop();
+            // animations.actions.Walk.crossFadeFrom(animations.actions.Run, 1);
+        }, 2000)
+
     } ,[])
 
     return <>
