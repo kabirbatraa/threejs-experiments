@@ -8,11 +8,11 @@ export default function SSAOHelper4({callbackFunction}) {
     const config = useControls("SSAO", {
         // blendFunction: ,
         samples: {
-            value: 10,
+            value: 20,
         },
         radius: 5,
         intensity: {
-            value: 100,
+            value: 20,
             min: 0, 
             max: 150,
             onChange: (v) => {
