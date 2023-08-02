@@ -1,5 +1,8 @@
 const fragmentShader = /*glsl*/`
 
+
+// place holder code: 
+
 uniform vec3 uColorA;
 uniform vec3 uColorB;
 
@@ -28,5 +31,4 @@ void main() {
   gl_FragColor = vec4(color, strength);
 }
 `
-
 export default fragmentShader;

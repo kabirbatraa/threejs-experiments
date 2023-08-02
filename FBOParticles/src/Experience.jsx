@@ -4,6 +4,7 @@ import {
 } from '@react-three/drei'
 import { Perf } from 'r3f-perf'
 import FBOParticles from './FBOParticles'
+import Test from './Test'
 
 export default function Experience() {
 
@@ -19,7 +20,9 @@ export default function Experience() {
         <OrbitControls makeDefault />
         {/* <OrbitControls autoRotate /> */}
 
-        <FBOParticles count={count} />
+        {/* <FBOParticles count={count} /> */}
+
+        <Test />
 
     </>
 }
