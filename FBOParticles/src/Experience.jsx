@@ -20,9 +20,9 @@ export default function Experience() {
         <OrbitControls makeDefault />
         {/* <OrbitControls autoRotate /> */}
 
-        {/* <FBOParticles count={count} /> */}
+        <FBOParticles count={count} />
 
-        <Test />
+        {/* <Test /> */}
 
     </>
 }

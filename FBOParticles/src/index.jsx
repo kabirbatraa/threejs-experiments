@@ -16,7 +16,6 @@ root.render(
             position: [ 0, 0, 3 ]
         } }
     >
-        {/* this code area is implicitly attached to the scene */}
         <color args= { ['#221133'] } attach="background" /> 
         <Experience />
     </Canvas>
