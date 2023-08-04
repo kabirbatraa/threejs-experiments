@@ -10,6 +10,7 @@ void main() {
   vec3 position = texture2D(positionsTexture, vUv).xyz;
 
   // update position here
+  position.x += 0.1;
 
   // render position to render target texture
   gl_FragColor = vec4(position, 1.0);

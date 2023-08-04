@@ -56,6 +56,10 @@ export default function FBOParticles() {
         
         // update simulationMaterial's time uniform
         simulationMaterialRef.current.uniforms.uTime.value = clock.elapsedTime;
+        // console.log(simulationMaterialRef.current.uniforms.positionsTexture.value)
+        // console.log(renderTarget.texture)
+
+        simulationMaterialRef.current.uniforms.positionsTexture.value = renderTarget.texture;
     })
 
     return <>
@@ -88,29 +92,27 @@ export default function FBOParticles() {
         )}
 
         
-    <mesh>
-        {/* create buffer geometry to set square vertices and uvs manually */}
-        <bufferGeometry>
-            {/* set square vertices */}
-            <bufferAttribute
-                attach="attributes-position"
-                count={squareVertices.length / 3}
-                array={squareVertices}
-                itemSize={3}
-            />
+        <mesh>
+            <bufferGeometry>
+                <bufferAttribute
+                    attach="attributes-position"
+                    count={squareVertices.length / 3}
+                    array={squareVertices}
+                    itemSize={3}
+                />
+                <bufferAttribute
+                    attach="attributes-uv"
+                    count={squareUVs.length / 2}
+                    array={squareUVs}
+                    itemSize={2}
+                />
+            </bufferGeometry>
+            <simulationMaterial ref={simulationMaterialRef} args={[textureSize]} />
+        </mesh>
 
-            {/* set square uvs */}
-            <bufferAttribute
-                attach="attributes-uv"
-                count={squareUVs.length / 2}
-                array={squareUVs}
-                itemSize={2}
-            />
-        </bufferGeometry>
+        {/* <points>
 
-        {/* square's material is simulation material */}
-        <simulationMaterial ref={simulationMaterialRef} args={[textureSize]} />
-    </mesh>
+        </points> */}
 
     </>
 }

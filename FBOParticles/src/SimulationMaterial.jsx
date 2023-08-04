@@ -10,7 +10,8 @@ import * as THREE from 'three'
 class SimulationMaterial extends THREE.ShaderMaterial {
     constructor(size) {
 
-        const data = SimulationMaterial.generatePointsInSphere(size * size);
+        // const data = SimulationMaterial.generatePointsInSphere(size * size);
+        const data = SimulationMaterial.generatePointsGradient(size * size);
         
         const positionsTexture = new THREE.DataTexture(
             data,
@@ -52,6 +53,23 @@ class SimulationMaterial extends THREE.ShaderMaterial {
             x = x / length * radius;
             y = y / length * radius;
             z = z / length * radius;
+    
+            // we wont use the forth value (rgba texture)
+            positions.set([x, y, z, 1.0], i * 4);
+        }
+
+        return positions;
+    }
+
+    static generatePointsGradient(count) {
+        const positions = new Float32Array(count * 4);
+            
+        for (let i = 0; i < count; i++) {
+
+            const brightness = (i / count);
+            const x = brightness;
+            const y = brightness;
+            const z = brightness;
     
             // we wont use the forth value (rgba texture)
             positions.set([x, y, z, 1.0], i * 4);
