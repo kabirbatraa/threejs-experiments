@@ -86,5 +86,31 @@ export default function FBOParticles() {
             </mesh>,    
             scene
         )}
+
+        
+    <mesh>
+        {/* create buffer geometry to set square vertices and uvs manually */}
+        <bufferGeometry>
+            {/* set square vertices */}
+            <bufferAttribute
+                attach="attributes-position"
+                count={squareVertices.length / 3}
+                array={squareVertices}
+                itemSize={3}
+            />
+
+            {/* set square uvs */}
+            <bufferAttribute
+                attach="attributes-uv"
+                count={squareUVs.length / 2}
+                array={squareUVs}
+                itemSize={2}
+            />
+        </bufferGeometry>
+
+        {/* square's material is simulation material */}
+        <simulationMaterial ref={simulationMaterialRef} args={[textureSize]} />
+    </mesh>
+
     </>
 }

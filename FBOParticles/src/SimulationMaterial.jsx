@@ -22,7 +22,7 @@ class SimulationMaterial extends THREE.ShaderMaterial {
         positionsTexture.needsUpdate = true;
 
         const simulationUniforms = {
-            positionsTex: {
+            positionsTexture: {
                 value: positionsTexture
             },
             uTime: {
@@ -56,6 +56,8 @@ class SimulationMaterial extends THREE.ShaderMaterial {
             // we wont use the forth value (rgba texture)
             positions.set([x, y, z, 1.0], i * 4);
         }
+
+        return positions;
     }
 }
 
