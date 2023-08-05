@@ -1,3 +1,6 @@
+import glslCurlNoise from './glslCurlNoise.js';
+
+
 const vertexShader = /*glsl*/`
 
 uniform float uTime;
@@ -16,9 +19,13 @@ mat3 rotation3dY(float angle) {
 
 // varying float vRadius;
 
+${glslCurlNoise}
+
 void main() {
 
   vec3 particlePosition = position;
+
+  particlePosition = curlNoise(particlePosition*0.5 + uTime*0.1);
 
   vec4 modelPosition = modelMatrix * vec4(particlePosition, 1.0);
   vec4 viewPosition = viewMatrix * modelPosition;
