@@ -1,3 +1,5 @@
+const vertexShader = /*glsl*/`
+
 uniform float uTime;
 uniform float uRadius;
 
@@ -35,3 +37,6 @@ void main() {
   gl_PointSize *= (1.0 / -viewPosition.z);
 }
 
+`
+
+export default vertexShader;

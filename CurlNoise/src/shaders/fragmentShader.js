@@ -1,3 +1,5 @@
+const fragmentShader = /*glsl*/`
+
 uniform vec3 uColorA;
 uniform vec3 uColorB;
 
@@ -25,3 +27,6 @@ void main() {
   // also base opacity off of strength
   gl_FragColor = vec4(color, strength);
 }
+`
+
+export default fragmentShader;
