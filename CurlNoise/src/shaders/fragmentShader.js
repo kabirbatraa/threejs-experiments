@@ -3,7 +3,7 @@ const fragmentShader = /*glsl*/`
 uniform vec3 uColorA;
 uniform vec3 uColorB;
 
-varying float vRadius;
+// varying float vRadius;
 
 void main() {
 
@@ -19,7 +19,8 @@ void main() {
 
 
   // set base color between color A and B by radius
-  vec3 color = mix(uColorA, uColorB, 1. - vRadius);
+  // vec3 color = mix(uColorA, uColorB, 1. - vRadius);
+  vec3 color = uColorA;
 
   // set end color to between black and base color based on strength
   color = mix(vec3(0.0), color, strength);
